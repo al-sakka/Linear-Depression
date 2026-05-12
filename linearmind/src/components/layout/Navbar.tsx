@@ -17,9 +17,12 @@ import {
   X,
   Lock,
   Code2,
+  Sun,
+  Moon,
 } from 'lucide-react';
 import { useState } from 'react';
 import { useHydrated } from '@/lib/useHydrated';
+import { useTheme } from '@/lib/useTheme';
 
 const navLinks = [
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard, protected: true },
@@ -36,6 +39,7 @@ export default function Navbar() {
   const { firebaseUser, logout } = useAuth();
   const hydrated = useHydrated();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { theme, toggle: toggleTheme } = useTheme();
 
   if (pathname === '/' || pathname === '/login') return null;
   if (!hydrated) return null;
@@ -82,6 +86,15 @@ export default function Navbar() {
 
           {/* Right side */}
           <div className="flex items-center gap-3">
+            {/* Theme Toggle */}
+            <button
+              onClick={toggleTheme}
+              className="p-2 rounded-lg text-foreground/60 hover:text-foreground hover:bg-surface-light transition-colors"
+              title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+            >
+              {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+            </button>
+
             {/* XP Badge */}
             {firebaseUser && (
             <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20">

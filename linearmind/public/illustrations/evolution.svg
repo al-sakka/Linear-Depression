@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400">
+  <defs>
+    <linearGradient id="bg2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1e1b4b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <filter id="glow2">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect width="800" height="400" fill="url(#bg2)"/>
+  <!-- Timeline arrow -->
+  <line x1="60" y1="200" x2="740" y2="200" stroke="#334155" stroke-width="2"/>
+  <polygon points="740,195 755,200 740,205" fill="#334155"/>
+  <!-- Era markers -->
+  <!-- 1805 Legendre -->
+  <circle cx="120" cy="200" r="8" fill="#6366f1" filter="url(#glow2)"/>
+  <text x="120" y="175" font-family="system-ui,sans-serif" font-size="11" fill="#94a3b8" text-anchor="middle">1805</text>
+  <text x="120" y="235" font-family="system-ui,sans-serif" font-size="10" fill="#a5b4fc" text-anchor="middle">Legendre</text>
+  <text x="120" y="248" font-family="system-ui,sans-serif" font-size="9" fill="#64748b" text-anchor="middle">Least Squares</text>
+  <!-- 1885 Galton -->
+  <circle cx="240" cy="200" r="8" fill="#a855f7" filter="url(#glow2)"/>
+  <text x="240" y="175" font-family="system-ui,sans-serif" font-size="11" fill="#94a3b8" text-anchor="middle">1885</text>
+  <text x="240" y="235" font-family="system-ui,sans-serif" font-size="10" fill="#c084fc" text-anchor="middle">Galton</text>
+  <text x="240" y="248" font-family="system-ui,sans-serif" font-size="9" fill="#64748b" text-anchor="middle">"Regression"</text>
+  <!-- 1896 Pearson -->
+  <circle cx="320" cy="200" r="6" fill="#06b6d4" filter="url(#glow2)"/>
+  <text x="320" y="175" font-family="system-ui,sans-serif" font-size="11" fill="#94a3b8" text-anchor="middle">1896</text>
+  <text x="320" y="235" font-family="system-ui,sans-serif" font-size="10" fill="#67e8f9" text-anchor="middle">Pearson</text>
+  <text x="320" y="248" font-family="system-ui,sans-serif" font-size="9" fill="#64748b" text-anchor="middle">Correlation r</text>
+  <!-- 1943 McCulloch-Pitts -->
+  <circle cx="430" cy="200" r="7" fill="#f59e0b" filter="url(#glow2)"/>
+  <text x="430" y="175" font-family="system-ui,sans-serif" font-size="11" fill="#94a3b8" text-anchor="middle">1943</text>
+  <text x="430" y="235" font-family="system-ui,sans-serif" font-size="10" fill="#fbbf24" text-anchor="middle">McCulloch</text>
+  <text x="430" y="248" font-family="system-ui,sans-serif" font-size="9" fill="#64748b" text-anchor="middle">First Neuron</text>
+  <!-- 1986 Backprop -->
+  <circle cx="540" cy="200" r="7" fill="#10b981" filter="url(#glow2)"/>
+  <text x="540" y="175" font-family="system-ui,sans-serif" font-size="11" fill="#94a3b8" text-anchor="middle">1986</text>
+  <text x="540" y="235" font-family="system-ui,sans-serif" font-size="10" fill="#34d399" text-anchor="middle">Hinton</text>
+  <text x="540" y="248" font-family="system-ui,sans-serif" font-size="9" fill="#64748b" text-anchor="middle">Backprop</text>
+  <!-- 2012 Deep Learning -->
+  <circle cx="630" cy="200" r="8" fill="#ec4899" filter="url(#glow2)"/>
+  <text x="630" y="175" font-family="system-ui,sans-serif" font-size="11" fill="#94a3b8" text-anchor="middle">2012</text>
+  <text x="630" y="235" font-family="system-ui,sans-serif" font-size="10" fill="#f472b6" text-anchor="middle">AlexNet</text>
+  <text x="630" y="248" font-family="system-ui,sans-serif" font-size="9" fill="#64748b" text-anchor="middle">Deep Learning</text>
+  <!-- 2024 LLMs -->
+  <circle cx="710" cy="200" r="9" fill="#d97706" filter="url(#glow2)"/>
+  <text x="710" y="175" font-family="system-ui,sans-serif" font-size="11" fill="#94a3b8" text-anchor="middle">2024</text>
+  <text x="710" y="235" font-family="system-ui,sans-serif" font-size="10" fill="#fbbf24" text-anchor="middle">LLMs</text>
+  <text x="710" y="248" font-family="system-ui,sans-serif" font-size="9" fill="#64748b" text-anchor="middle">GPT, Gemini</text>
+  <!-- Connecting glow line -->
+  <line x1="120" y1="200" x2="710" y2="200" stroke="#6366f1" stroke-width="1" opacity="0.3" filter="url(#glow2)"/>
+  <!-- Formula at bottom -->
+  <text x="400" y="310" font-family="serif" font-size="20" fill="#a5b4fc" text-anchor="middle" font-style="italic" filter="url(#glow2)">y = wx + b</text>
+  <text x="400" y="335" font-family="system-ui,sans-serif" font-size="12" fill="#64748b" text-anchor="middle">The same equation, from 1805 to today</text>
+  <!-- Title -->
+  <text x="400" y="50" font-family="system-ui,sans-serif" font-size="18" fill="#e2e8f0" font-weight="600" text-anchor="middle">From Stars to Statistics: 220 Years of Regression</text>
+  <!-- Galton height diagram mini -->
+  <g transform="translate(200,70)" opacity="0.4">
+    <rect x="0" y="0" width="30" height="60" rx="3" fill="none" stroke="#a855f7" stroke-width="1"/>
+    <rect x="40" y="10" width="25" height="50" rx="3" fill="none" stroke="#a855f7" stroke-width="1"/>
+    <text x="15" y="80" font-family="system-ui,sans-serif" font-size="8" fill="#a855f7" text-anchor="middle">Father</text>
+    <text x="52" y="80" font-family="system-ui,sans-serif" font-size="8" fill="#a855f7" text-anchor="middle">Son</text>
+  </g>
+  <!-- Neural net mini diagram -->
+  <g transform="translate(560,60)" opacity="0.4">
+    <circle cx="0" cy="15" r="5" fill="none" stroke="#ec4899" stroke-width="1"/>
+    <circle cx="0" cy="35" r="5" fill="none" stroke="#ec4899" stroke-width="1"/>
+    <circle cx="30" cy="10" r="5" fill="none" stroke="#ec4899" stroke-width="1"/>
+    <circle cx="30" cy="25" r="5" fill="none" stroke="#ec4899" stroke-width="1"/>
+    <circle cx="30" cy="40" r="5" fill="none" stroke="#ec4899" stroke-width="1"/>
+    <circle cx="60" cy="25" r="5" fill="none" stroke="#ec4899" stroke-width="1"/>
+    <line x1="5" y1="15" x2="25" y2="10" stroke="#ec4899" stroke-width="0.5"/>
+    <line x1="5" y1="15" x2="25" y2="25" stroke="#ec4899" stroke-width="0.5"/>
+    <line x1="5" y1="15" x2="25" y2="40" stroke="#ec4899" stroke-width="0.5"/>
+    <line x1="5" y1="35" x2="25" y2="10" stroke="#ec4899" stroke-width="0.5"/>
+    <line x1="5" y1="35" x2="25" y2="25" stroke="#ec4899" stroke-width="0.5"/>
+    <line x1="5" y1="35" x2="25" y2="40" stroke="#ec4899" stroke-width="0.5"/>
+    <line x1="35" y1="10" x2="55" y2="25" stroke="#ec4899" stroke-width="0.5"/>
+    <line x1="35" y1="25" x2="55" y2="25" stroke="#ec4899" stroke-width="0.5"/>
+    <line x1="35" y1="40" x2="55" y2="25" stroke="#ec4899" stroke-width="0.5"/>
+  </g>
+</svg>

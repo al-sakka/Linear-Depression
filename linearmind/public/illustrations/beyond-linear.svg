@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400">
+  <defs>
+    <linearGradient id="bg10" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1e1b4b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <filter id="glow10">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect width="800" height="400" fill="url(#bg10)"/>
+  <text x="400" y="35" font-family="system-ui,sans-serif" font-size="16" fill="#e2e8f0" font-weight="600" text-anchor="middle">Why We Need Layers: Breaking the Linearity Barrier</text>
+  <!-- Left: Stacking linear = still linear -->
+  <g transform="translate(30,60)">
+    <text x="170" y="15" font-family="system-ui,sans-serif" font-size="12" fill="#f87171" font-weight="600" text-anchor="middle">Stacking Linear = Still Linear</text>
+    <rect x="10" y="30" width="320" height="130" rx="8" fill="#1e293b" stroke="#ef444420" stroke-width="1"/>
+    <!-- Layer boxes -->
+    <rect x="30" y="55" width="70" height="35" rx="5" fill="#6366f120" stroke="#6366f150" stroke-width="1"/>
+    <text x="65" y="77" font-family="monospace" font-size="10" fill="#a5b4fc" text-anchor="middle">f = ax+b</text>
+    <text x="115" y="77" font-family="system-ui,sans-serif" font-size="14" fill="#64748b">→</text>
+    <rect x="130" y="55" width="70" height="35" rx="5" fill="#a855f720" stroke="#a855f750" stroke-width="1"/>
+    <text x="165" y="77" font-family="monospace" font-size="10" fill="#c084fc" text-anchor="middle">g = cx+d</text>
+    <text x="215" y="77" font-family="system-ui,sans-serif" font-size="14" fill="#64748b">→</text>
+    <rect x="230" y="55" width="80" height="35" rx="5" fill="#ef444420" stroke="#ef444450" stroke-width="1"/>
+    <text x="270" y="73" font-family="monospace" font-size="9" fill="#f87171" text-anchor="middle">g(f(x))</text>
+    <text x="270" y="86" font-family="monospace" font-size="9" fill="#f87171" text-anchor="middle">= (ca)x+(cb+d)</text>
+    <!-- Result label -->
+    <text x="170" y="120" font-family="system-ui,sans-serif" font-size="11" fill="#f87171" text-anchor="middle">Still just a line! ✗</text>
+    <text x="170" y="140" font-family="system-ui,sans-serif" font-size="10" fill="#64748b" text-anchor="middle">Cannot learn XOR, curves, or patterns</text>
+  </g>
+  <!-- Right: With activation = universal -->
+  <g transform="translate(400,60)">
+    <text x="190" y="15" font-family="system-ui,sans-serif" font-size="12" fill="#34d399" font-weight="600" text-anchor="middle">Add Activation = Any Function!</text>
+    <rect x="10" y="30" width="360" height="130" rx="8" fill="#1e293b" stroke="#10b98120" stroke-width="1"/>
+    <rect x="25" y="55" width="70" height="35" rx="5" fill="#6366f120" stroke="#6366f150" stroke-width="1"/>
+    <text x="60" y="77" font-family="monospace" font-size="10" fill="#a5b4fc" text-anchor="middle">wx+b</text>
+    <text x="108" y="77" font-family="system-ui,sans-serif" font-size="14" fill="#64748b">→</text>
+    <rect x="118" y="50" width="60" height="42" rx="5" fill="#f59e0b20" stroke="#f59e0b50" stroke-width="1"/>
+    <text x="148" y="68" font-family="system-ui,sans-serif" font-size="9" fill="#fbbf24" text-anchor="middle">ReLU</text>
+    <text x="148" y="83" font-family="monospace" font-size="8" fill="#fbbf24" text-anchor="middle">max(0,x)</text>
+    <text x="192" y="77" font-family="system-ui,sans-serif" font-size="14" fill="#64748b">→</text>
+    <rect x="202" y="55" width="70" height="35" rx="5" fill="#a855f720" stroke="#a855f750" stroke-width="1"/>
+    <text x="237" y="77" font-family="monospace" font-size="10" fill="#c084fc" text-anchor="middle">wx+b</text>
+    <text x="285" y="77" font-family="system-ui,sans-serif" font-size="14" fill="#64748b">→</text>
+    <rect x="295" y="55" width="55" height="35" rx="5" fill="#10b98120" stroke="#10b98150" stroke-width="1"/>
+    <text x="322" y="77" font-family="monospace" font-size="10" fill="#34d399" text-anchor="middle">ŷ</text>
+    <text x="190" y="120" font-family="system-ui,sans-serif" font-size="11" fill="#34d399" text-anchor="middle">Can learn ANY continuous function ✓</text>
+    <text x="190" y="140" font-family="system-ui,sans-serif" font-size="10" fill="#64748b" text-anchor="middle">Universal Approximation Theorem (1989)</text>
+  </g>
+  <!-- Activation functions -->
+  <g transform="translate(40,220)">
+    <text x="360" y="15" font-family="system-ui,sans-serif" font-size="13" fill="#c084fc" font-weight="600" text-anchor="middle">Activation Functions</text>
+    <!-- ReLU -->
+    <g transform="translate(0,30)">
+      <rect width="220" height="110" rx="8" fill="#1e293b" stroke="#f59e0b30" stroke-width="1"/>
+      <text x="110" y="22" font-family="system-ui,sans-serif" font-size="11" fill="#fbbf24" font-weight="600" text-anchor="middle">ReLU: max(0, x)</text>
+      <!-- Mini chart -->
+      <line x1="30" y1="80" x2="190" y2="80" stroke="#475569" stroke-width="0.5"/>
+      <line x1="110" y1="35" x2="110" y2="100" stroke="#475569" stroke-width="0.5"/>
+      <line x1="30" y1="80" x2="110" y2="80" stroke="#f59e0b" stroke-width="2"/>
+      <line x1="110" y1="80" x2="190" y2="35" stroke="#f59e0b" stroke-width="2"/>
+      <text x="110" y="108" font-family="system-ui,sans-serif" font-size="9" fill="#64748b" text-anchor="middle">Default in modern networks</text>
+    </g>
+    <!-- Sigmoid -->
+    <g transform="translate(250,30)">
+      <rect width="220" height="110" rx="8" fill="#1e293b" stroke="#6366f130" stroke-width="1"/>
+      <text x="110" y="22" font-family="system-ui,sans-serif" font-size="11" fill="#a5b4fc" font-weight="600" text-anchor="middle">Sigmoid: 1/(1+e⁻ˣ)</text>
+      <line x1="30" y1="80" x2="190" y2="80" stroke="#475569" stroke-width="0.5"/>
+      <line x1="110" y1="35" x2="110" y2="100" stroke="#475569" stroke-width="0.5"/>
+      <path d="M 30,95 Q 60,93 80,88 Q 95,80 110,68 Q 125,55 140,48 Q 160,42 190,40" fill="none" stroke="#6366f1" stroke-width="2"/>
+      <text x="110" y="108" font-family="system-ui,sans-serif" font-size="9" fill="#64748b" text-anchor="middle">Output (0,1) for probabilities</text>
+    </g>
+    <!-- Tanh -->
+    <g transform="translate(500,30)">
+      <rect width="220" height="110" rx="8" fill="#1e293b" stroke="#10b98130" stroke-width="1"/>
+      <text x="110" y="22" font-family="system-ui,sans-serif" font-size="11" fill="#34d399" font-weight="600" text-anchor="middle">Tanh: centered sigmoid</text>
+      <line x1="30" y1="68" x2="190" y2="68" stroke="#475569" stroke-width="0.5"/>
+      <line x1="110" y1="35" x2="110" y2="100" stroke="#475569" stroke-width="0.5"/>
+      <path d="M 30,95 Q 60,92 80,85 Q 95,73 110,68 Q 125,62 140,55 Q 160,43 190,40" fill="none" stroke="#10b981" stroke-width="2"/>
+      <text x="110" y="108" font-family="system-ui,sans-serif" font-size="9" fill="#64748b" text-anchor="middle">Output (-1,1) centered at 0</text>
+    </g>
+  </g>
+  <!-- Journey arrow at very bottom -->
+  <g transform="translate(60,375)">
+    <text x="0" y="0" font-family="serif" font-size="12" fill="#6366f1" font-style="italic">y=wx+b</text>
+    <text x="75" y="0" font-family="system-ui,sans-serif" font-size="10" fill="#64748b">→</text>
+    <text x="90" y="0" font-family="serif" font-size="12" fill="#a855f7" font-style="italic">W·X+b</text>
+    <text x="155" y="0" font-family="system-ui,sans-serif" font-size="10" fill="#64748b">→</text>
+    <text x="170" y="0" font-family="serif" font-size="12" fill="#f59e0b" font-style="italic">σ(W·X+b)</text>
+    <text x="265" y="0" font-family="system-ui,sans-serif" font-size="10" fill="#64748b">→</text>
+    <text x="280" y="0" font-family="system-ui,sans-serif" font-size="12" fill="#ec4899" font-weight="600">Deep Learning 🚀</text>
+  </g>
+</svg>

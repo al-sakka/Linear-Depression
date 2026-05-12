@@ -5,7 +5,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   MousePointerClick, Trash2, RotateCcw, Download, Upload,
   Eye, EyeOff, TrendingUp, BarChart3, Sigma, Sparkles,
-  Plus, Minus, Shuffle, Grid3X3, Layers, Info, Play, Pause, SkipForward
+  Plus, Minus, Shuffle, Grid3X3, Layers, Info, Play, Pause, SkipForward,
+  ChevronDown
 } from 'lucide-react';
 
 interface Point {
@@ -211,6 +212,9 @@ export default function PlaygroundPage() {
   // Polynomial mode
   const [polyEnabled, setPolyEnabled] = useState(false);
   const [polyDegree, setPolyDegree] = useState(2);
+
+  // Sidebar accordion
+  const [openPanel, setOpenPanel] = useState<string>('presets');
 
   // Training mode (animated gradient descent)
   const [trainMode, setTrainMode] = useState(false);
@@ -748,24 +752,62 @@ export default function PlaygroundPage() {
 
   return (
     <div className="min-h-screen particle-bg">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
 
-        {/* Header */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-6">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-lg">
-              🎮
-            </div>
-            <div>
-              <h1 className="text-2xl sm:text-3xl font-bold">Regression Playground</h1>
-              <p className="text-foreground/40 text-sm">
-                Add points, tweak parameters, and explore linear regression interactively
-              </p>
+        {/* Hero Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="relative mb-8 overflow-hidden rounded-2xl"
+        >
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/15 via-accent/10 to-secondary/10 rounded-2xl" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_30%,rgba(6,182,212,0.12),transparent_60%)]" />
+          <div className="relative p-6 sm:p-8">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div className="flex items-center gap-4">
+                <div>
+                  <motion.h1
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.1 }}
+                    className="text-2xl sm:text-3xl font-bold"
+                  >
+                    <span className="gradient-text">Regression Playground</span>
+                  </motion.h1>
+                  <motion.p
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.2 }}
+                    className="text-foreground/40 text-sm"
+                  >
+                    Add points, tweak parameters, and explore linear regression interactively
+                  </motion.p>
+                </div>
+              </div>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.3 }}
+                className="flex flex-wrap gap-2"
+              >
+                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-xs">
+                  <span className="w-1.5 h-1.5 rounded-full bg-primary-light animate-pulse" />
+                  <span className="text-primary-light font-medium">{points.length} Points</span>
+                </div>
+                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-accent/10 border border-accent/20 text-xs">
+                  <span className="text-accent font-medium font-mono">R² {points.length >= 2 ? bestFit.r2.toFixed(3) : '—'}</span>
+                </div>
+                {trainMode && (
+                  <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-warning/10 border border-warning/20 text-xs">
+                    <span className="text-warning font-medium">Epoch {trainEpoch}</span>
+                  </div>
+                )}
+              </motion.div>
             </div>
           </div>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-5 lg:items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-5 lg:items-start">
 
           {/* ─── LEFT: Main Canvas Area ───────────────────── */}
           <div className="space-y-4 lg:sticky lg:top-4">
@@ -777,7 +819,7 @@ export default function PlaygroundPage() {
               transition={{ delay: 0.05 }}
               className="flex flex-wrap items-center gap-2"
             >
-              <div className="flex items-center gap-1 bg-surface/60 backdrop-blur-sm border border-border/40 rounded-xl px-1 py-1">
+              <div className="flex items-center gap-1 bg-surface border border-border/50 rounded-xl px-1 py-1">
                 <button onClick={() => { setPoints(PRESETS[0].points); setActivePreset(0); }} className="px-2.5 py-1.5 text-xs rounded-lg hover:bg-surface-light transition-colors" title="Reset">
                   <RotateCcw className="w-3.5 h-3.5" />
                 </button>
@@ -798,7 +840,7 @@ export default function PlaygroundPage() {
               </div>
 
               {/* Toggle pills */}
-              <div className="flex items-center gap-1 bg-surface/60 backdrop-blur-sm border border-border/40 rounded-xl px-1 py-1">
+              <div className="flex items-center gap-1 bg-surface border border-border/50 rounded-xl px-1 py-1">
                 <button
                   onClick={() => setShowResiduals(!showResiduals)}
                   className={`px-2.5 py-1.5 text-xs rounded-lg transition-colors ${showResiduals ? 'bg-primary/20 text-primary-light' : 'text-foreground/40 hover:bg-surface-light'}`}
@@ -839,7 +881,7 @@ export default function PlaygroundPage() {
               initial={{ opacity: 0, scale: 0.97 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.1 }}
-              className="relative rounded-2xl overflow-hidden border border-border/40 bg-surface/30 backdrop-blur-sm"
+              className="relative rounded-2xl overflow-hidden border border-border/50 bg-surface"
             >
               <canvas
                 ref={canvasRef}
@@ -853,7 +895,7 @@ export default function PlaygroundPage() {
                 onTouchEnd={handleMouseUp}
               />
               {/* Floating point count */}
-              <div className="absolute top-3 left-3 bg-surface/80 backdrop-blur-sm border border-border/30 rounded-lg px-2.5 py-1 text-[10px] text-foreground/40 font-mono">
+              <div className="absolute top-3 left-3 bg-surface/90 backdrop-blur-sm border border-border/50 rounded-lg px-2.5 py-1 text-[10px] text-foreground/40 font-mono">
                 {points.length} points
               </div>
             </motion.div>
@@ -872,7 +914,7 @@ export default function PlaygroundPage() {
                 { label: 'MAE', value: mae.toFixed(1), color: 'text-warning' },
                 { label: 'R²', value: points.length >= 2 ? bestFit.r2.toFixed(3) : '—', color: r2Quality.color, sub: points.length >= 2 ? r2Quality.label : '' },
               ].map(stat => (
-                <div key={stat.label} className="bg-surface/40 backdrop-blur-sm border border-border/30 rounded-xl p-3 text-center">
+                <div key={stat.label} className="bg-surface border border-border/50 rounded-xl p-3 text-center">
                   <p className="text-[10px] text-foreground/35 mb-0.5">{stat.label}</p>
                   <p className={`text-lg sm:text-xl font-bold font-mono ${stat.color}`}>{stat.value}</p>
                   {stat.sub && <p className={`text-[9px] ${stat.color} opacity-60`}>{stat.sub}</p>}
@@ -887,7 +929,7 @@ export default function PlaygroundPage() {
                   initial={{ opacity: 0, height: 0 }}
                   animate={{ opacity: 1, height: 'auto' }}
                   exit={{ opacity: 0, height: 0 }}
-                  className="bg-surface/40 backdrop-blur-sm border border-border/30 rounded-2xl p-4 overflow-hidden"
+                  className="bg-surface border border-border/50 rounded-2xl p-4 overflow-hidden"
                 >
                   <h3 className="text-xs font-semibold text-foreground/50 mb-3">Residual Distribution</h3>
                   <div className="flex items-end justify-center gap-1 h-24">
@@ -934,550 +976,676 @@ export default function PlaygroundPage() {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2 }}
-            className="space-y-4 lg:max-h-[calc(100vh-2rem)] lg:overflow-y-auto lg:pr-1 scrollbar-thin"
+            className="bg-surface border border-border/50 rounded-2xl overflow-hidden divide-y divide-border/30"
           >
-            {/* Presets */}
-            <div className="bg-surface/40 backdrop-blur-sm border border-border/30 rounded-2xl p-4">
-              <h3 className="text-xs font-semibold text-foreground/50 mb-3 flex items-center gap-1.5">
-                <Sparkles className="w-3.5 h-3.5" /> Dataset Presets
-              </h3>
-              <div className="grid grid-cols-2 gap-2">
-                {PRESETS.map((preset, i) => (
-                  <button
-                    key={preset.name}
-                    onClick={() => { setPoints(preset.points); setActivePreset(i); setManualMode(false); }}
-                    className={`text-left p-2.5 rounded-xl border transition-all duration-200 ${
-                      activePreset === i
-                        ? 'border-primary/40 bg-primary/10'
-                        : 'border-border/20 bg-surface/30 hover:border-border/50 hover:bg-surface/50'
-                    }`}
+            {/* ── Presets ── */}
+            <div>
+              <button
+                onClick={() => setOpenPanel(openPanel === 'presets' ? '' : 'presets')}
+                className="w-full flex items-center justify-between px-4 py-3 hover:bg-surface-light/50 transition-colors"
+              >
+                <span className="text-[10px] uppercase tracking-wider font-semibold text-foreground/40 flex items-center gap-1.5">
+                  <Sparkles className="w-3.5 h-3.5 text-primary-light" /> Dataset Presets
+                </span>
+                <ChevronDown className={`w-3.5 h-3.5 text-foreground/30 transition-transform duration-200 ${openPanel === 'presets' ? 'rotate-180' : ''}`} />
+              </button>
+              <AnimatePresence initial={false}>
+                {openPanel === 'presets' && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                    className="overflow-hidden"
                   >
-                    <span className="text-base">{preset.icon}</span>
-                    <p className="text-xs font-medium mt-0.5">{preset.name}</p>
-                    <p className="text-[9px] text-foreground/30 leading-tight">{preset.desc}</p>
-                  </button>
-                ))}
-              </div>
+                    <div className="px-4 pb-4">
+                      <div className="grid grid-cols-2 gap-2">
+                        {PRESETS.map((preset, i) => (
+                          <button
+                            key={preset.name}
+                            onClick={() => { setPoints(preset.points); setActivePreset(i); setManualMode(false); }}
+                            className={`text-left p-2.5 rounded-xl border transition-all duration-200 ${
+                              activePreset === i
+                                ? 'border-primary/40 bg-primary/10'
+                                : 'border-border/20 bg-surface/30 hover:border-border/50 hover:bg-surface/50'
+                            }`}
+                          >
+                            <span className="text-base">{preset.icon}</span>
+                            <p className="text-xs font-medium mt-0.5">{preset.name}</p>
+                            <p className="text-[9px] text-foreground/30 leading-tight">{preset.desc}</p>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
 
-            {/* Manual Line Controls */}
-            <div className="bg-surface/40 backdrop-blur-sm border border-border/30 rounded-2xl p-4">
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="text-xs font-semibold text-foreground/50 flex items-center gap-1.5">
-                  <TrendingUp className="w-3.5 h-3.5" /> Manual Line
-                </h3>
-                <button
-                  onClick={() => {
-                    const next = !manualMode;
-                    setManualMode(next);
-                    if (next) {
-                      setTrainMode(false);
-                      cancelAnimationFrame(trainRef.current);
-                      setTrainRunning(false);
-                    }
-                  }}
-                  className={`text-[10px] px-2.5 py-1 rounded-full border transition-all ${
-                    manualMode
-                      ? 'bg-orange-500/20 text-orange-400 border-orange-500/30'
-                      : 'bg-surface-light text-foreground/40 border-border/30 hover:text-foreground/60'
-                  }`}
-                >
-                  {manualMode ? 'ON' : 'OFF'}
-                </button>
-              </div>
+            {/* ── Manual Line ── */}
+            <div>
+              <button
+                onClick={() => setOpenPanel(openPanel === 'manual' ? '' : 'manual')}
+                className="w-full flex items-center justify-between px-4 py-3 hover:bg-surface-light/50 transition-colors"
+              >
+                <span className="text-[10px] uppercase tracking-wider font-semibold text-foreground/40 flex items-center gap-1.5">
+                  <TrendingUp className="w-3.5 h-3.5 text-orange-400" /> Manual Line
+                  {manualMode && <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-orange-500/20 text-orange-400 border border-orange-500/30 normal-case tracking-normal">ON</span>}
+                </span>
+                <ChevronDown className={`w-3.5 h-3.5 text-foreground/30 transition-transform duration-200 ${openPanel === 'manual' ? 'rotate-180' : ''}`} />
+              </button>
+              <AnimatePresence initial={false}>
+                {openPanel === 'manual' && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                    className="overflow-hidden"
+                  >
+                    <div className="px-4 pb-4 space-y-3">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[10px] text-foreground/40">Enable manual mode</span>
+                        <button
+                          onClick={() => {
+                            const next = !manualMode;
+                            setManualMode(next);
+                            if (next) {
+                              setTrainMode(false);
+                              cancelAnimationFrame(trainRef.current);
+                              setTrainRunning(false);
+                            }
+                          }}
+                          className={`text-[10px] px-2.5 py-1 rounded-full border transition-all ${
+                            manualMode
+                              ? 'bg-orange-500/20 text-orange-400 border-orange-500/30'
+                              : 'bg-surface-light text-foreground/40 border-border/30 hover:text-foreground/60'
+                          }`}
+                        >
+                          {manualMode ? 'ON' : 'OFF'}
+                        </button>
+                      </div>
 
-              <div className={`space-y-3 transition-opacity ${manualMode ? 'opacity-100' : 'opacity-30 pointer-events-none'}`}>
-                <div>
-                  <div className="flex justify-between text-[10px] mb-1">
-                    <span className="text-foreground/40">Slope (m)</span>
-                    <span className="text-orange-400 font-mono font-bold">{manualSlope.toFixed(2)}</span>
-                  </div>
-                  <input
-                    type="range" min={-2} max={2} step={0.01}
-                    value={manualSlope}
-                    onChange={(e) => setManualSlope(Number(e.target.value))}
-                    className="w-full accent-orange-500 h-1.5"
-                  />
-                  <div className="flex justify-between text-[8px] text-foreground/15"><span>-2</span><span>0</span><span>2</span></div>
-                </div>
-                <div>
-                  <div className="flex justify-between text-[10px] mb-1">
-                    <span className="text-foreground/40">Intercept (b)</span>
-                    <span className="text-orange-400 font-mono font-bold">{manualIntercept.toFixed(0)}</span>
-                  </div>
-                  <input
-                    type="range" min={0} max={500} step={1}
-                    value={manualIntercept}
-                    onChange={(e) => setManualIntercept(Number(e.target.value))}
-                    className="w-full accent-orange-500 h-1.5"
-                  />
-                  <div className="flex justify-between text-[8px] text-foreground/15"><span>0</span><span>250</span><span>500</span></div>
-                </div>
-                <button
-                  onClick={() => {
-                    setManualSlope(bestFit.slope);
-                    setManualIntercept(bestFit.intercept);
-                  }}
-                  className="w-full text-[10px] py-1.5 rounded-lg bg-orange-500/10 text-orange-400 hover:bg-orange-500/20 transition-colors"
-                >
-                  Snap to Best Fit
-                </button>
-              </div>
+                      <div className={`space-y-3 transition-opacity ${manualMode ? 'opacity-100' : 'opacity-30 pointer-events-none'}`}>
+                        <div>
+                          <div className="flex justify-between text-[10px] mb-1">
+                            <span className="text-foreground/40">Slope (m)</span>
+                            <span className="text-orange-400 font-mono font-bold">{manualSlope.toFixed(2)}</span>
+                          </div>
+                          <input
+                            type="range" min={-2} max={2} step={0.01}
+                            value={manualSlope}
+                            onChange={(e) => setManualSlope(Number(e.target.value))}
+                            className="w-full accent-orange-500 h-1.5"
+                          />
+                          <div className="flex justify-between text-[8px] text-foreground/15"><span>-2</span><span>0</span><span>2</span></div>
+                        </div>
+                        <div>
+                          <div className="flex justify-between text-[10px] mb-1">
+                            <span className="text-foreground/40">Intercept (b)</span>
+                            <span className="text-orange-400 font-mono font-bold">{manualIntercept.toFixed(0)}</span>
+                          </div>
+                          <input
+                            type="range" min={0} max={500} step={1}
+                            value={manualIntercept}
+                            onChange={(e) => setManualIntercept(Number(e.target.value))}
+                            className="w-full accent-orange-500 h-1.5"
+                          />
+                          <div className="flex justify-between text-[8px] text-foreground/15"><span>0</span><span>250</span><span>500</span></div>
+                        </div>
+                        <button
+                          onClick={() => {
+                            setManualSlope(bestFit.slope);
+                            setManualIntercept(bestFit.intercept);
+                          }}
+                          className="w-full text-[10px] py-1.5 rounded-lg bg-orange-500/10 text-orange-400 hover:bg-orange-500/20 transition-colors"
+                        >
+                          Snap to Best Fit
+                        </button>
+                      </div>
 
-              {manualMode && points.length >= 2 && (
-                <div className="mt-3 pt-3 border-t border-border/20">
-                  <div className="flex items-center justify-between text-[10px]">
-                    <span className="text-foreground/30">Your MSE</span>
-                    <span className="font-mono text-orange-400">{mse.toFixed(1)}</span>
-                  </div>
-                  <div className="flex items-center justify-between text-[10px]">
-                    <span className="text-foreground/30">Best MSE</span>
-                    <span className="font-mono text-primary-light">
-                      {(points.reduce((s, p) => s + (p.y - (bestFit.slope * p.x + bestFit.intercept)) ** 2, 0) / points.length).toFixed(1)}
-                    </span>
-                  </div>
-                  <div className="mt-1.5 h-1.5 bg-surface-light rounded-full overflow-hidden">
-                    <div
-                      className="h-full rounded-full bg-gradient-to-r from-error via-warning to-success transition-all duration-300"
-                      style={{
-                        width: `${Math.max(5, Math.min(100, (1 - (mse / (mse + 500))) * 100))}%`,
-                      }}
-                    />
-                  </div>
-                  <p className="text-[9px] text-foreground/20 mt-1">Closer to best fit →</p>
-                </div>
-              )}
+                      {manualMode && points.length >= 2 && (
+                        <div className="pt-3 border-t border-border/20">
+                          <div className="flex items-center justify-between text-[10px]">
+                            <span className="text-foreground/30">Your MSE</span>
+                            <span className="font-mono text-orange-400">{mse.toFixed(1)}</span>
+                          </div>
+                          <div className="flex items-center justify-between text-[10px]">
+                            <span className="text-foreground/30">Best MSE</span>
+                            <span className="font-mono text-primary-light">
+                              {(points.reduce((s, p) => s + (p.y - (bestFit.slope * p.x + bestFit.intercept)) ** 2, 0) / points.length).toFixed(1)}
+                            </span>
+                          </div>
+                          <div className="mt-1.5 h-1.5 bg-surface-light rounded-full overflow-hidden">
+                            <div
+                              className="h-full rounded-full bg-gradient-to-r from-error via-warning to-success transition-all duration-300"
+                              style={{
+                                width: `${Math.max(5, Math.min(100, (1 - (mse / (mse + 500))) * 100))}%`,
+                              }}
+                            />
+                          </div>
+                          <p className="text-[9px] text-foreground/20 mt-1">Closer to best fit →</p>
+                        </div>
+                      )}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
 
-            {/* Training (Gradient Descent) */}
-            <div className="bg-surface/40 backdrop-blur-sm border border-border/30 rounded-2xl p-4">
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="text-xs font-semibold text-foreground/50 flex items-center gap-1.5">
+            {/* ── Training (Gradient Descent) ── */}
+            <div>
+              <button
+                onClick={() => setOpenPanel(openPanel === 'training' ? '' : 'training')}
+                className="w-full flex items-center justify-between px-4 py-3 hover:bg-surface-light/50 transition-colors"
+              >
+                <span className="text-[10px] uppercase tracking-wider font-semibold text-foreground/40 flex items-center gap-1.5">
                   🏋️ Train (Gradient Descent)
+                  {trainMode && (
+                    <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-yellow-500/20 text-yellow-400 border border-yellow-500/30 normal-case tracking-normal">ON</span>
+                  )}
                   {trainMode && trainAutoPoly > 0 && (
-                    <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/20">
+                    <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/20 normal-case tracking-normal">
                       poly°{trainAutoPoly}
                     </span>
                   )}
-                </h3>
-                <button
-                  onClick={() => {
-                    const next = !trainMode;
-                    setTrainMode(next);
-                    if (next) {
-                      setManualMode(false);
-                      setTrainRunning(false);
-                      setTrainW(0);
-                      setTrainB(0);
-                      setTrainCoeffs([]);
-                      setTrainEpoch(0);
-                      setTrainLossHistory([]);
-                    } else {
-                      cancelAnimationFrame(trainRef.current);
-                      setTrainRunning(false);
-                    }
-                  }}
-                  className={`text-[10px] px-2.5 py-1 rounded-full border transition-all ${
-                    trainMode
-                      ? 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30'
-                      : 'bg-surface-light text-foreground/40 border-border/30 hover:text-foreground/60'
-                  }`}
-                >
-                  {trainMode ? 'ON' : 'OFF'}
-                </button>
-              </div>
-
-              <div className={`space-y-3 transition-opacity ${trainMode ? 'opacity-100' : 'opacity-30 pointer-events-none'}`}>
-                {/* Learning rate */}
-                <div>
-                  <div className="flex justify-between text-[10px] mb-1">
-                    <span className="text-foreground/40">Learning Rate (α)</span>
-                    <span className="text-yellow-400 font-mono font-bold">{trainLR.toFixed(3)}</span>
-                  </div>
-                  <input
-                    type="range" min={0.001} max={0.5} step={0.001}
-                    value={trainLR}
-                    onChange={(e) => setTrainLR(Number(e.target.value))}
-                    className="w-full accent-yellow-500 h-1.5"
-                  />
-                  <div className="flex justify-between text-[8px] text-foreground/15 mt-0.5">
-                    <span>0.001 (slow)</span>
-                    <span>0.5 (fast)</span>
-                  </div>
-                </div>
-
-                {/* Speed */}
-                <div>
-                  <div className="flex justify-between text-[10px] mb-1">
-                    <span className="text-foreground/40">Steps / frame</span>
-                    <span className="text-yellow-400 font-mono font-bold">{trainSpeed}</span>
-                  </div>
-                  <input
-                    type="range" min={1} max={50} step={1}
-                    value={trainSpeed}
-                    onChange={(e) => setTrainSpeed(Number(e.target.value))}
-                    className="w-full accent-yellow-500 h-1.5"
-                  />
-                </div>
-
-                {/* Controls */}
-                <div className="flex gap-2">
-                  <button
-                    onClick={() => setTrainRunning(!trainRunning)}
-                    disabled={points.length < 2}
-                    className={`flex-1 text-[10px] py-2 rounded-xl font-semibold transition-colors flex items-center justify-center gap-1.5 ${
-                      trainRunning
-                        ? 'bg-yellow-500/20 text-yellow-400 hover:bg-yellow-500/30'
-                        : 'bg-yellow-500/10 text-yellow-400/70 hover:bg-yellow-500/20'
-                    } disabled:opacity-30`}
+                </span>
+                <ChevronDown className={`w-3.5 h-3.5 text-foreground/30 transition-transform duration-200 ${openPanel === 'training' ? 'rotate-180' : ''}`} />
+              </button>
+              <AnimatePresence initial={false}>
+                {openPanel === 'training' && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                    className="overflow-hidden"
                   >
-                    {trainRunning ? <><Pause className="w-3 h-3" /> Pause</> : <><Play className="w-3 h-3" /> Train</>}
-                  </button>
-                  <button
-                    onClick={() => {
-                      if (points.length < 2) return;
-                      const n = points.length;
-
-                      if (trainAutoPoly > 0) {
-                        // Polynomial single step
-                        const deg = trainAutoPoly;
-                        const coeffs = trainCoeffs.length === deg + 1 ? [...trainCoeffs] : new Array(deg + 1).fill(0);
-                        const grad = new Array(deg + 1).fill(0);
-                        let loss = 0;
-                        for (const p of points) {
-                          const xNorm = (p.x - trainXMin) / trainXRange;
-                          let pred = 0, xp = 1;
-                          for (let i = 0; i <= deg; i++) { pred += coeffs[i] * xp; xp *= xNorm; }
-                          const err = pred - p.y;
-                          xp = 1;
-                          for (let i = 0; i <= deg; i++) { grad[i] += err * xp; xp *= xNorm; }
-                          loss += err * err;
-                        }
-                        for (let i = 0; i <= deg; i++) {
-                          coeffs[i] -= trainLR * (2 / n) * grad[i];
-                        }
-                        loss /= n;
-                        setTrainCoeffs(coeffs);
-                        setTrainEpoch(e => e + 1);
-                        setTrainLossHistory(h => {
-                          const next = [...h, loss];
-                          return next.length > 200 ? next.slice(-200) : next;
-                        });
-                      } else {
-                        // Linear single step
-                        let dw = 0, db = 0, loss = 0;
-                        for (const p of points) {
-                          const xNorm = (p.x - trainXMin) / trainXRange;
-                          const pred = trainW * xNorm + trainB;
-                          const err = pred - p.y;
-                          dw += err * xNorm;
-                          db += err;
-                          loss += err * err;
-                        }
-                        dw = (2 / n) * dw;
-                        db = (2 / n) * db;
-                        loss = loss / n;
-                        setTrainW(trainW - trainLR * dw);
-                        setTrainB(trainB - trainLR * db);
-                        setTrainEpoch(e => e + 1);
-                        setTrainLossHistory(h => {
-                          const next = [...h, loss];
-                          return next.length > 200 ? next.slice(-200) : next;
-                        });
-                      }
-                    }}
-                    disabled={points.length < 2 || trainRunning}
-                    className="px-3 py-2 text-[10px] rounded-xl bg-surface-light text-foreground/50 hover:text-foreground/80 transition-colors border border-border/20 disabled:opacity-30"
-                    title="Single step"
-                  >
-                    <SkipForward className="w-3 h-3" />
-                  </button>
-                  <button
-                    onClick={() => {
-                      cancelAnimationFrame(trainRef.current);
-                      setTrainRunning(false);
-                      setTrainW(0);
-                      setTrainB(0);
-                      setTrainCoeffs([]);
-                      setTrainEpoch(0);
-                      setTrainLossHistory([]);
-                    }}
-                    className="px-3 py-2 text-[10px] rounded-xl bg-surface-light text-foreground/50 hover:text-foreground/80 transition-colors border border-border/20"
-                    title="Reset training"
-                  >
-                    <RotateCcw className="w-3 h-3" />
-                  </button>
-                </div>
-
-                {/* Stats */}
-                <div className="grid grid-cols-2 gap-2">
-                  <div className="bg-background/30 rounded-lg p-2 text-center">
-                    <p className="text-[9px] text-foreground/30">Epoch</p>
-                    <p className="text-xs font-mono font-bold text-yellow-400">{trainEpoch}</p>
-                  </div>
-                  <div className="bg-background/30 rounded-lg p-2 text-center">
-                    <p className="text-[9px] text-foreground/30">MSE</p>
-                    <p className="text-xs font-mono font-bold text-error">{(trainIsPoly ? trainPolyMse : mse).toFixed(1)}</p>
-                  </div>
-                  {trainIsPoly ? (
-                    <>
-                      <div className="bg-background/30 rounded-lg p-2 text-center col-span-2">
-                        <p className="text-[9px] text-foreground/30">Mode</p>
-                        <p className="text-xs font-mono font-bold text-emerald-400">Poly degree {trainAutoPoly}</p>
+                    <div className="px-4 pb-4 space-y-3">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[10px] text-foreground/40">Enable training</span>
+                        <button
+                          onClick={() => {
+                            const next = !trainMode;
+                            setTrainMode(next);
+                            if (next) {
+                              setManualMode(false);
+                              setTrainRunning(false);
+                              setTrainW(0);
+                              setTrainB(0);
+                              setTrainCoeffs([]);
+                              setTrainEpoch(0);
+                              setTrainLossHistory([]);
+                            } else {
+                              cancelAnimationFrame(trainRef.current);
+                              setTrainRunning(false);
+                            }
+                          }}
+                          className={`text-[10px] px-2.5 py-1 rounded-full border transition-all ${
+                            trainMode
+                              ? 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30'
+                              : 'bg-surface-light text-foreground/40 border-border/30 hover:text-foreground/60'
+                          }`}
+                        >
+                          {trainMode ? 'ON' : 'OFF'}
+                        </button>
                       </div>
-                      {trainCoeffs.map((c, i) => (
-                        <div key={i} className="bg-background/30 rounded-lg p-2 text-center">
-                          <p className="text-[9px] text-foreground/30">c{i}</p>
-                          <p className="text-xs font-mono font-bold text-primary-light">{c.toFixed(2)}</p>
+
+                      <div className={`space-y-3 transition-opacity ${trainMode ? 'opacity-100' : 'opacity-30 pointer-events-none'}`}>
+                        {/* Learning rate */}
+                        <div>
+                          <div className="flex justify-between text-[10px] mb-1">
+                            <span className="text-foreground/40">Learning Rate (α)</span>
+                            <span className="text-yellow-400 font-mono font-bold">{trainLR.toFixed(3)}</span>
+                          </div>
+                          <input
+                            type="range" min={0.001} max={0.5} step={0.001}
+                            value={trainLR}
+                            onChange={(e) => setTrainLR(Number(e.target.value))}
+                            className="w-full accent-yellow-500 h-1.5"
+                          />
+                          <div className="flex justify-between text-[8px] text-foreground/15 mt-0.5">
+                            <span>0.001 (slow)</span>
+                            <span>0.5 (fast)</span>
+                          </div>
                         </div>
-                      ))}
-                    </>
-                  ) : (
-                    <>
-                      <div className="bg-background/30 rounded-lg p-2 text-center">
-                        <p className="text-[9px] text-foreground/30">w (slope)</p>
-                        <p className="text-xs font-mono font-bold text-primary-light">{trainDisplaySlope.toFixed(4)}</p>
-                      </div>
-                      <div className="bg-background/30 rounded-lg p-2 text-center">
-                        <p className="text-[9px] text-foreground/30">b (intercept)</p>
-                        <p className="text-xs font-mono font-bold text-secondary">{trainDisplayIntercept.toFixed(1)}</p>
-                      </div>
-                    </>
-                  )}
-                </div>
 
-                {/* Live loss chart */}
-                {trainLossHistory.length > 1 && (
-                  <div className="bg-background/30 rounded-lg p-2">
-                    <p className="text-[9px] text-foreground/30 mb-1">Loss over time</p>
-                    <div className="h-16 flex items-end gap-px">
-                      {(() => {
-                        const hist = trainLossHistory;
-                        const maxLoss = Math.max(...hist, 1);
-                        // Downsample to max 80 bars
-                        const step = Math.max(1, Math.floor(hist.length / 80));
-                        const sampled = hist.filter((_, i) => i % step === 0 || i === hist.length - 1);
-                        return sampled.map((l, i) => {
-                          const pct = Math.max(2, (l / maxLoss) * 100);
-                          const progress = i / sampled.length;
+                        {/* Speed */}
+                        <div>
+                          <div className="flex justify-between text-[10px] mb-1">
+                            <span className="text-foreground/40">Steps / frame</span>
+                            <span className="text-yellow-400 font-mono font-bold">{trainSpeed}</span>
+                          </div>
+                          <input
+                            type="range" min={1} max={50} step={1}
+                            value={trainSpeed}
+                            onChange={(e) => setTrainSpeed(Number(e.target.value))}
+                            className="w-full accent-yellow-500 h-1.5"
+                          />
+                        </div>
+
+                        {/* Controls */}
+                        <div className="flex gap-2">
+                          <button
+                            onClick={() => setTrainRunning(!trainRunning)}
+                            disabled={points.length < 2}
+                            className={`flex-1 text-[10px] py-2 rounded-xl font-semibold transition-colors flex items-center justify-center gap-1.5 ${
+                              trainRunning
+                                ? 'bg-yellow-500/20 text-yellow-400 hover:bg-yellow-500/30'
+                                : 'bg-yellow-500/10 text-yellow-400/70 hover:bg-yellow-500/20'
+                            } disabled:opacity-30`}
+                          >
+                            {trainRunning ? <><Pause className="w-3 h-3" /> Pause</> : <><Play className="w-3 h-3" /> Train</>}
+                          </button>
+                          <button
+                            onClick={() => {
+                              if (points.length < 2) return;
+                              const n = points.length;
+
+                              if (trainAutoPoly > 0) {
+                                // Polynomial single step
+                                const deg = trainAutoPoly;
+                                const coeffs = trainCoeffs.length === deg + 1 ? [...trainCoeffs] : new Array(deg + 1).fill(0);
+                                const grad = new Array(deg + 1).fill(0);
+                                let loss = 0;
+                                for (const p of points) {
+                                  const xNorm = (p.x - trainXMin) / trainXRange;
+                                  let pred = 0, xp = 1;
+                                  for (let i = 0; i <= deg; i++) { pred += coeffs[i] * xp; xp *= xNorm; }
+                                  const err = pred - p.y;
+                                  xp = 1;
+                                  for (let i = 0; i <= deg; i++) { grad[i] += err * xp; xp *= xNorm; }
+                                  loss += err * err;
+                                }
+                                for (let i = 0; i <= deg; i++) {
+                                  coeffs[i] -= trainLR * (2 / n) * grad[i];
+                                }
+                                loss /= n;
+                                setTrainCoeffs(coeffs);
+                                setTrainEpoch(e => e + 1);
+                                setTrainLossHistory(h => {
+                                  const next = [...h, loss];
+                                  return next.length > 200 ? next.slice(-200) : next;
+                                });
+                              } else {
+                                // Linear single step
+                                let dw = 0, db = 0, loss = 0;
+                                for (const p of points) {
+                                  const xNorm = (p.x - trainXMin) / trainXRange;
+                                  const pred = trainW * xNorm + trainB;
+                                  const err = pred - p.y;
+                                  dw += err * xNorm;
+                                  db += err;
+                                  loss += err * err;
+                                }
+                                dw = (2 / n) * dw;
+                                db = (2 / n) * db;
+                                loss = loss / n;
+                                setTrainW(trainW - trainLR * dw);
+                                setTrainB(trainB - trainLR * db);
+                                setTrainEpoch(e => e + 1);
+                                setTrainLossHistory(h => {
+                                  const next = [...h, loss];
+                                  return next.length > 200 ? next.slice(-200) : next;
+                                });
+                              }
+                            }}
+                            disabled={points.length < 2 || trainRunning}
+                            className="px-3 py-2 text-[10px] rounded-xl bg-surface-light text-foreground/50 hover:text-foreground/80 transition-colors border border-border/20 disabled:opacity-30"
+                            title="Single step"
+                          >
+                            <SkipForward className="w-3 h-3" />
+                          </button>
+                          <button
+                            onClick={() => {
+                              cancelAnimationFrame(trainRef.current);
+                              setTrainRunning(false);
+                              setTrainW(0);
+                              setTrainB(0);
+                              setTrainCoeffs([]);
+                              setTrainEpoch(0);
+                              setTrainLossHistory([]);
+                            }}
+                            className="px-3 py-2 text-[10px] rounded-xl bg-surface-light text-foreground/50 hover:text-foreground/80 transition-colors border border-border/20"
+                            title="Reset training"
+                          >
+                            <RotateCcw className="w-3 h-3" />
+                          </button>
+                        </div>
+
+                        {/* Stats */}
+                        <div className="grid grid-cols-2 gap-2">
+                          <div className="bg-background/30 rounded-lg p-2 text-center">
+                            <p className="text-[9px] text-foreground/30">Epoch</p>
+                            <p className="text-xs font-mono font-bold text-yellow-400">{trainEpoch}</p>
+                          </div>
+                          <div className="bg-background/30 rounded-lg p-2 text-center">
+                            <p className="text-[9px] text-foreground/30">MSE</p>
+                            <p className="text-xs font-mono font-bold text-error">{(trainIsPoly ? trainPolyMse : mse).toFixed(1)}</p>
+                          </div>
+                          {trainIsPoly ? (
+                            <>
+                              <div className="bg-background/30 rounded-lg p-2 text-center col-span-2">
+                                <p className="text-[9px] text-foreground/30">Mode</p>
+                                <p className="text-xs font-mono font-bold text-emerald-400">Poly degree {trainAutoPoly}</p>
+                              </div>
+                              {trainCoeffs.map((c, i) => (
+                                <div key={i} className="bg-background/30 rounded-lg p-2 text-center">
+                                  <p className="text-[9px] text-foreground/30">c{i}</p>
+                                  <p className="text-xs font-mono font-bold text-primary-light">{c.toFixed(2)}</p>
+                                </div>
+                              ))}
+                            </>
+                          ) : (
+                            <>
+                              <div className="bg-background/30 rounded-lg p-2 text-center">
+                                <p className="text-[9px] text-foreground/30">w (slope)</p>
+                                <p className="text-xs font-mono font-bold text-primary-light">{trainDisplaySlope.toFixed(4)}</p>
+                              </div>
+                              <div className="bg-background/30 rounded-lg p-2 text-center">
+                                <p className="text-[9px] text-foreground/30">b (intercept)</p>
+                                <p className="text-xs font-mono font-bold text-secondary">{trainDisplayIntercept.toFixed(1)}</p>
+                              </div>
+                            </>
+                          )}
+                        </div>
+
+                        {/* Live loss chart */}
+                        {trainLossHistory.length > 1 && (
+                          <div className="bg-background/30 rounded-lg p-2">
+                            <p className="text-[9px] text-foreground/30 mb-1">Loss over time</p>
+                            <div className="h-16 flex items-end gap-px">
+                              {(() => {
+                                const hist = trainLossHistory;
+                                const maxLoss = Math.max(...hist, 1);
+                                // Downsample to max 80 bars
+                                const step = Math.max(1, Math.floor(hist.length / 80));
+                                const sampled = hist.filter((_, i) => i % step === 0 || i === hist.length - 1);
+                                return sampled.map((l, i) => {
+                                  const pct = Math.max(2, (l / maxLoss) * 100);
+                                  const progress = i / sampled.length;
+                                  return (
+                                    <div
+                                      key={i}
+                                      className="flex-1 rounded-t-sm transition-all duration-75"
+                                      style={{
+                                        height: `${pct}%`,
+                                        backgroundColor: `rgba(234, 179, 8, ${0.15 + progress * 0.5})`,
+                                      }}
+                                    />
+                                  );
+                                });
+                              })()}
+                            </div>
+                            <div className="flex justify-between text-[8px] text-foreground/15 mt-0.5">
+                              <span>start</span>
+                              <span>{trainLossHistory[trainLossHistory.length - 1]?.toFixed(0)}</span>
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Convergence indicator */}
+                        {trainEpoch > 0 && points.length >= 2 && (() => {
+                          if (trainIsPoly) {
+                            const optPoly = fitPolynomial(points, trainAutoPoly);
+                            const optMse = points.reduce((sum, p) => {
+                              const pred = evalPoly(optPoly.coeffs, p.x, trainXMin, trainXRange);
+                              return sum + (p.y - pred) ** 2;
+                            }, 0) / points.length;
+                            const converged = trainPolyMse > 0 && Math.abs(trainPolyMse - optMse) / Math.max(optMse, 1) < 0.05;
+                            return (
+                              <div className={`text-[9px] px-2 py-1.5 rounded-lg ${
+                                converged ? 'bg-success/10 text-success' : 'bg-yellow-500/10 text-yellow-400/70'
+                              }`}>
+                                {converged
+                                  ? '✅ Converged! Matches the optimal polynomial fit.'
+                                  : `📐 MSE: ${trainPolyMse.toFixed(1)} → optimal: ${optMse.toFixed(1)}`}
+                              </div>
+                            );
+                          }
+                          const linConverged = Math.abs(trainDisplaySlope - bestFit.slope) < 0.01 && Math.abs(trainDisplayIntercept - bestFit.intercept) < 2;
                           return (
-                            <div
-                              key={i}
-                              className="flex-1 rounded-t-sm transition-all duration-75"
-                              style={{
-                                height: `${pct}%`,
-                                backgroundColor: `rgba(234, 179, 8, ${0.15 + progress * 0.5})`,
-                              }}
-                            />
+                            <div className={`text-[9px] px-2 py-1.5 rounded-lg ${
+                              linConverged ? 'bg-success/10 text-success' : 'bg-yellow-500/10 text-yellow-400/70'
+                            }`}>
+                              {linConverged
+                                ? '✅ Converged! Matches the best-fit line.'
+                                : `📐 Distance to optimal: Δw=${Math.abs(trainDisplaySlope - bestFit.slope).toFixed(3)}, Δb=${Math.abs(trainDisplayIntercept - bestFit.intercept).toFixed(1)}`}
+                            </div>
                           );
-                        });
-                      })()}
-                    </div>
-                    <div className="flex justify-between text-[8px] text-foreground/15 mt-0.5">
-                      <span>start</span>
-                      <span>{trainLossHistory[trainLossHistory.length - 1]?.toFixed(0)}</span>
-                    </div>
-                  </div>
-                )}
-
-                {/* Convergence indicator */}
-                {trainEpoch > 0 && points.length >= 2 && (() => {
-                  if (trainIsPoly) {
-                    const optPoly = fitPolynomial(points, trainAutoPoly);
-                    const optMse = points.reduce((sum, p) => {
-                      const pred = evalPoly(optPoly.coeffs, p.x, trainXMin, trainXRange);
-                      return sum + (p.y - pred) ** 2;
-                    }, 0) / points.length;
-                    const converged = trainPolyMse > 0 && Math.abs(trainPolyMse - optMse) / Math.max(optMse, 1) < 0.05;
-                    return (
-                      <div className={`text-[9px] px-2 py-1.5 rounded-lg ${
-                        converged ? 'bg-success/10 text-success' : 'bg-yellow-500/10 text-yellow-400/70'
-                      }`}>
-                        {converged
-                          ? '✅ Converged! Matches the optimal polynomial fit.'
-                          : `📐 MSE: ${trainPolyMse.toFixed(1)} → optimal: ${optMse.toFixed(1)}`}
+                        })()}
                       </div>
-                    );
-                  }
-                  const linConverged = Math.abs(trainDisplaySlope - bestFit.slope) < 0.01 && Math.abs(trainDisplayIntercept - bestFit.intercept) < 2;
-                  return (
-                    <div className={`text-[9px] px-2 py-1.5 rounded-lg ${
-                      linConverged ? 'bg-success/10 text-success' : 'bg-yellow-500/10 text-yellow-400/70'
-                    }`}>
-                      {linConverged
-                        ? '✅ Converged! Matches the best-fit line.'
-                        : `📐 Distance to optimal: Δw=${Math.abs(trainDisplaySlope - bestFit.slope).toFixed(3)}, Δb=${Math.abs(trainDisplayIntercept - bestFit.intercept).toFixed(1)}`}
                     </div>
-                  );
-                })()}
-              </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
 
-            {/* Noise & Tools */}
-            <div className="bg-surface/40 backdrop-blur-sm border border-border/30 rounded-2xl p-4">
-              <h3 className="text-xs font-semibold text-foreground/50 mb-3 flex items-center gap-1.5">
-                <Sparkles className="w-3.5 h-3.5" /> Tools
-              </h3>
-              <div className="space-y-3">
-                <div>
-                  <div className="flex justify-between text-[10px] mb-1">
-                    <span className="text-foreground/40">Noise Intensity</span>
-                    <span className="text-foreground/50 font-mono">{noiseLevel}px</span>
-                  </div>
-                  <input
-                    type="range" min={5} max={100} step={5}
-                    value={noiseLevel}
-                    onChange={(e) => setNoiseLevel(Number(e.target.value))}
-                    className="w-full accent-primary h-1.5"
-                  />
-                </div>
-                <div className="grid grid-cols-2 gap-2">
-                  <button
-                    onClick={addNoise}
-                    className="text-[10px] py-2 rounded-xl bg-surface-light text-foreground/50 hover:text-foreground/80 transition-colors border border-border/20"
+            {/* ── Tools ── */}
+            <div>
+              <button
+                onClick={() => setOpenPanel(openPanel === 'tools' ? '' : 'tools')}
+                className="w-full flex items-center justify-between px-4 py-3 hover:bg-surface-light/50 transition-colors"
+              >
+                <span className="text-[10px] uppercase tracking-wider font-semibold text-foreground/40 flex items-center gap-1.5">
+                  <Sparkles className="w-3.5 h-3.5 text-accent" /> Tools
+                </span>
+                <ChevronDown className={`w-3.5 h-3.5 text-foreground/30 transition-transform duration-200 ${openPanel === 'tools' ? 'rotate-180' : ''}`} />
+              </button>
+              <AnimatePresence initial={false}>
+                {openPanel === 'tools' && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                    className="overflow-hidden"
                   >
-                    🌊 Add Noise
-                  </button>
-                  <button
-                    onClick={() => generateRandom(20)}
-                    className="text-[10px] py-2 rounded-xl bg-surface-light text-foreground/50 hover:text-foreground/80 transition-colors border border-border/20"
-                  >
-                    🎲 Random 20
-                  </button>
-                </div>
-                <button
-                  onClick={() => setShowHistogram(!showHistogram)}
-                  className={`w-full text-[10px] py-2 rounded-xl border transition-all ${
-                    showHistogram
-                      ? 'bg-primary/10 text-primary-light border-primary/30'
-                      : 'bg-surface-light text-foreground/50 border-border/20 hover:text-foreground/80'
-                  }`}
-                >
-                  📊 {showHistogram ? 'Hide' : 'Show'} Residual Histogram
-                </button>
-              </div>
+                    <div className="px-4 pb-4 space-y-3">
+                      <div>
+                        <div className="flex justify-between text-[10px] mb-1">
+                          <span className="text-foreground/40">Noise Intensity</span>
+                          <span className="text-foreground/50 font-mono">{noiseLevel}px</span>
+                        </div>
+                        <input
+                          type="range" min={5} max={100} step={5}
+                          value={noiseLevel}
+                          onChange={(e) => setNoiseLevel(Number(e.target.value))}
+                          className="w-full accent-primary h-1.5"
+                        />
+                      </div>
+                      <div className="grid grid-cols-2 gap-2">
+                        <button
+                          onClick={addNoise}
+                          className="text-[10px] py-2 rounded-xl bg-surface-light text-foreground/50 hover:text-foreground/80 transition-colors border border-border/20"
+                        >
+                          🌊 Add Noise
+                        </button>
+                        <button
+                          onClick={() => generateRandom(20)}
+                          className="text-[10px] py-2 rounded-xl bg-surface-light text-foreground/50 hover:text-foreground/80 transition-colors border border-border/20"
+                        >
+                          🎲 Random 20
+                        </button>
+                      </div>
+                      <button
+                        onClick={() => setShowHistogram(!showHistogram)}
+                        className={`w-full text-[10px] py-2 rounded-xl border transition-all ${
+                          showHistogram
+                            ? 'bg-primary/10 text-primary-light border-primary/30'
+                            : 'bg-surface-light text-foreground/50 border-border/20 hover:text-foreground/80'
+                        }`}
+                      >
+                        📊 {showHistogram ? 'Hide' : 'Show'} Residual Histogram
+                      </button>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
 
-            {/* Polynomial Regression */}
-            <div className="bg-surface/40 backdrop-blur-sm border border-border/30 rounded-2xl p-4">
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="text-xs font-semibold text-foreground/50 flex items-center gap-1.5">
+            {/* ── Polynomial Fit ── */}
+            <div>
+              <button
+                onClick={() => setOpenPanel(openPanel === 'poly' ? '' : 'poly')}
+                className="w-full flex items-center justify-between px-4 py-3 hover:bg-surface-light/50 transition-colors"
+              >
+                <span className="text-[10px] uppercase tracking-wider font-semibold text-foreground/40 flex items-center gap-1.5">
                   🔄 Polynomial Fit
-                </h3>
-                <button
-                  onClick={() => setPolyEnabled(!polyEnabled)}
-                  className={`text-[10px] px-2.5 py-1 rounded-full border transition-all ${
-                    polyEnabled
-                      ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30'
-                      : 'bg-surface-light text-foreground/40 border-border/30 hover:text-foreground/60'
-                  }`}
-                >
-                  {polyEnabled ? 'ON' : 'OFF'}
-                </button>
-              </div>
+                  {polyEnabled && <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 normal-case tracking-normal">ON</span>}
+                </span>
+                <ChevronDown className={`w-3.5 h-3.5 text-foreground/30 transition-transform duration-200 ${openPanel === 'poly' ? 'rotate-180' : ''}`} />
+              </button>
+              <AnimatePresence initial={false}>
+                {openPanel === 'poly' && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                    className="overflow-hidden"
+                  >
+                    <div className="px-4 pb-4 space-y-3">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[10px] text-foreground/40">Enable polynomial</span>
+                        <button
+                          onClick={() => setPolyEnabled(!polyEnabled)}
+                          className={`text-[10px] px-2.5 py-1 rounded-full border transition-all ${
+                            polyEnabled
+                              ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30'
+                              : 'bg-surface-light text-foreground/40 border-border/30 hover:text-foreground/60'
+                          }`}
+                        >
+                          {polyEnabled ? 'ON' : 'OFF'}
+                        </button>
+                      </div>
 
-              <div className={`space-y-3 transition-opacity ${polyEnabled ? 'opacity-100' : 'opacity-30 pointer-events-none'}`}>
-                <div>
-                  <div className="flex justify-between text-[10px] mb-1">
-                    <span className="text-foreground/40">Degree</span>
-                    <span className="text-emerald-400 font-mono font-bold">{polyDegree}</span>
-                  </div>
-                  <input
-                    type="range" min={2} max={10} step={1}
-                    value={polyDegree}
-                    onChange={(e) => setPolyDegree(Number(e.target.value))}
-                    className="w-full accent-emerald-500 h-1.5"
-                  />
-                  <div className="flex justify-between text-[8px] text-foreground/15 mt-0.5">
-                    <span>2 (quadratic)</span>
-                    <span>10</span>
-                  </div>
-                </div>
+                      <div className={`space-y-3 transition-opacity ${polyEnabled ? 'opacity-100' : 'opacity-30 pointer-events-none'}`}>
+                        <div>
+                          <div className="flex justify-between text-[10px] mb-1">
+                            <span className="text-foreground/40">Degree</span>
+                            <span className="text-emerald-400 font-mono font-bold">{polyDegree}</span>
+                          </div>
+                          <input
+                            type="range" min={2} max={10} step={1}
+                            value={polyDegree}
+                            onChange={(e) => setPolyDegree(Number(e.target.value))}
+                            className="w-full accent-emerald-500 h-1.5"
+                          />
+                          <div className="flex justify-between text-[8px] text-foreground/15 mt-0.5">
+                            <span>2 (quadratic)</span>
+                            <span>10</span>
+                          </div>
+                        </div>
 
-                {/* Degree labels */}
-                <div className="flex flex-wrap gap-1">
-                  {[2, 3, 4, 5].map(d => (
-                    <button
-                      key={d}
-                      onClick={() => setPolyDegree(d)}
-                      className={`text-[9px] px-2 py-1 rounded-lg border transition-all ${
-                        polyDegree === d
-                          ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30'
-                          : 'bg-surface/30 text-foreground/30 border-border/20 hover:text-foreground/50'
-                      }`}
-                    >
-                      {d === 2 ? 'Quadratic' : d === 3 ? 'Cubic' : d === 4 ? 'Quartic' : 'Quintic'}
-                    </button>
-                  ))}
-                </div>
-              </div>
+                        {/* Degree labels */}
+                        <div className="flex flex-wrap gap-1">
+                          {[2, 3, 4, 5].map(d => (
+                            <button
+                              key={d}
+                              onClick={() => setPolyDegree(d)}
+                              className={`text-[9px] px-2 py-1 rounded-lg border transition-all ${
+                                polyDegree === d
+                                  ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30'
+                                  : 'bg-surface/30 text-foreground/30 border-border/20 hover:text-foreground/50'
+                              }`}
+                            >
+                              {d === 2 ? 'Quadratic' : d === 3 ? 'Cubic' : d === 4 ? 'Quartic' : 'Quintic'}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
 
-              {polyEnabled && points.length >= polyDegree + 1 && (
-                <div className="mt-3 pt-3 border-t border-border/20 space-y-1.5">
-                  <div className="flex items-center justify-between text-[10px]">
-                    <span className="text-foreground/30">Poly R²</span>
-                    <span className={`font-mono font-bold ${polyFit.r2 > 0.9 ? 'text-emerald-400' : polyFit.r2 > 0.7 ? 'text-primary-light' : 'text-warning'}`}>
-                      {polyFit.r2.toFixed(4)}
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between text-[10px]">
-                    <span className="text-foreground/30">Poly MSE</span>
-                    <span className="font-mono text-emerald-400">{polyMse.toFixed(1)}</span>
-                  </div>
-                  <div className="flex items-center justify-between text-[10px]">
-                    <span className="text-foreground/30">Linear R²</span>
-                    <span className="font-mono text-primary-light">{bestFit.r2.toFixed(4)}</span>
-                  </div>
-                  {/* Improvement indicator */}
-                  {bestFit.r2 > 0 && (
-                    <div className={`text-[9px] mt-1 px-2 py-1 rounded-lg ${
-                      polyFit.r2 > bestFit.r2 + 0.01
-                        ? 'bg-emerald-500/10 text-emerald-400'
-                        : polyFit.r2 < bestFit.r2 - 0.01
-                        ? 'bg-error/10 text-error'
-                        : 'bg-foreground/5 text-foreground/30'
-                    }`}>
-                      {polyFit.r2 > bestFit.r2 + 0.01
-                        ? `✨ Poly improves R² by +${((polyFit.r2 - bestFit.r2) * 100).toFixed(1)}%`
-                        : polyFit.r2 < bestFit.r2 - 0.01
-                        ? '⚠️ Linear fits better — possible overfitting'
-                        : '≈ Similar fit to linear'}
+                      {polyEnabled && points.length >= polyDegree + 1 && (
+                        <div className="pt-3 border-t border-border/20 space-y-1.5">
+                          <div className="flex items-center justify-between text-[10px]">
+                            <span className="text-foreground/30">Poly R²</span>
+                            <span className={`font-mono font-bold ${polyFit.r2 > 0.9 ? 'text-emerald-400' : polyFit.r2 > 0.7 ? 'text-primary-light' : 'text-warning'}`}>
+                              {polyFit.r2.toFixed(4)}
+                            </span>
+                          </div>
+                          <div className="flex items-center justify-between text-[10px]">
+                            <span className="text-foreground/30">Poly MSE</span>
+                            <span className="font-mono text-emerald-400">{polyMse.toFixed(1)}</span>
+                          </div>
+                          <div className="flex items-center justify-between text-[10px]">
+                            <span className="text-foreground/30">Linear R²</span>
+                            <span className="font-mono text-primary-light">{bestFit.r2.toFixed(4)}</span>
+                          </div>
+                          {/* Improvement indicator */}
+                          {bestFit.r2 > 0 && (
+                            <div className={`text-[9px] mt-1 px-2 py-1 rounded-lg ${
+                              polyFit.r2 > bestFit.r2 + 0.01
+                                ? 'bg-emerald-500/10 text-emerald-400'
+                                : polyFit.r2 < bestFit.r2 - 0.01
+                                ? 'bg-error/10 text-error'
+                                : 'bg-foreground/5 text-foreground/30'
+                            }`}>
+                              {polyFit.r2 > bestFit.r2 + 0.01
+                                ? `✨ Poly improves R² by +${((polyFit.r2 - bestFit.r2) * 100).toFixed(1)}%`
+                                : polyFit.r2 < bestFit.r2 - 0.01
+                                ? '⚠️ Linear fits better — possible overfitting'
+                                : '≈ Similar fit to linear'}
+                            </div>
+                          )}
+                          {polyDegree >= points.length && (
+                            <div className="text-[9px] mt-1 px-2 py-1 rounded-lg bg-error/10 text-error">
+                              ⚠️ Degree ≥ points — overfitting guaranteed!
+                            </div>
+                          )}
+                        </div>
+                      )}
                     </div>
-                  )}
-                  {polyDegree >= points.length && (
-                    <div className="text-[9px] mt-1 px-2 py-1 rounded-lg bg-error/10 text-error">
-                      ⚠️ Degree ≥ points — overfitting guaranteed!
-                    </div>
-                  )}
-                </div>
-              )}
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
 
-            {/* Experiments */}
-            <div className="bg-surface/40 backdrop-blur-sm border border-border/30 rounded-2xl p-4">
-              <h3 className="text-xs font-semibold text-foreground/50 mb-3 flex items-center gap-1.5">
-                <Info className="w-3.5 h-3.5" /> Experiments to Try
-              </h3>
-              <div className="space-y-2">
-                {[
-                  { icon: '📏', title: 'Perfect Line', desc: 'Place points in a line — watch MSE drop to 0 and R² reach 1.0' },
-                  { icon: '⚡', title: 'Outlier Effect', desc: 'Add a far-away point — see how it pulls the entire line' },
-                  { icon: '🔄', title: 'Curved Data', desc: 'Use the Quadratic preset — linear regression can\'t capture curves' },
-                  { icon: '🎛️', title: 'Manual vs Best', desc: 'Toggle manual mode and try to beat the best-fit line' },
-                  { icon: '🔢', title: 'Poly Overfitting', desc: 'Enable polynomial, crank degree to 10 — watch it wiggle wildly' },
-                  { icon: '🏋️', title: 'Watch It Learn', desc: 'Enable training, hit play — watch gradient descent converge to the best fit' },
-                  { icon: '🌊', title: 'Noise Stress Test', desc: 'Crank up noise on clean data — watch R² degrade' },
-                  { icon: '📊', title: 'Residual Check', desc: 'Open histogram — healthy residuals are centered around 0' },
-                ].map(exp => (
-                  <div key={exp.title} className="flex items-start gap-2.5 p-2 rounded-lg hover:bg-surface-light/30 transition-colors">
-                    <span className="text-sm mt-0.5">{exp.icon}</span>
-                    <div>
-                      <p className="text-[11px] font-medium text-foreground/60">{exp.title}</p>
-                      <p className="text-[9px] text-foreground/25 leading-snug">{exp.desc}</p>
+            {/* ── Experiments ── */}
+            <div>
+              <button
+                onClick={() => setOpenPanel(openPanel === 'experiments' ? '' : 'experiments')}
+                className="w-full flex items-center justify-between px-4 py-3 hover:bg-surface-light/50 transition-colors"
+              >
+                <span className="text-[10px] uppercase tracking-wider font-semibold text-foreground/40 flex items-center gap-1.5">
+                  <Info className="w-3.5 h-3.5 text-secondary" /> Experiments to Try
+                </span>
+                <ChevronDown className={`w-3.5 h-3.5 text-foreground/30 transition-transform duration-200 ${openPanel === 'experiments' ? 'rotate-180' : ''}`} />
+              </button>
+              <AnimatePresence initial={false}>
+                {openPanel === 'experiments' && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                    className="overflow-hidden"
+                  >
+                    <div className="px-4 pb-4">
+                      <div className="space-y-2">
+                        {[
+                          { icon: '📏', title: 'Perfect Line', desc: 'Place points in a line — watch MSE drop to 0 and R² reach 1.0' },
+                          { icon: '⚡', title: 'Outlier Effect', desc: 'Add a far-away point — see how it pulls the entire line' },
+                          { icon: '🔄', title: 'Curved Data', desc: 'Use the Quadratic preset — linear regression can\'t capture curves' },
+                          { icon: '🎛️', title: 'Manual vs Best', desc: 'Toggle manual mode and try to beat the best-fit line' },
+                          { icon: '🔢', title: 'Poly Overfitting', desc: 'Enable polynomial, crank degree to 10 — watch it wiggle wildly' },
+                          { icon: '🏋️', title: 'Watch It Learn', desc: 'Enable training, hit play — watch gradient descent converge to the best fit' },
+                          { icon: '🌊', title: 'Noise Stress Test', desc: 'Crank up noise on clean data — watch R² degrade' },
+                          { icon: '📊', title: 'Residual Check', desc: 'Open histogram — healthy residuals are centered around 0' },
+                        ].map(exp => (
+                          <div key={exp.title} className="flex items-start gap-2.5 p-2 rounded-lg hover:bg-surface-light/30 transition-colors">
+                            <span className="text-sm mt-0.5">{exp.icon}</span>
+                            <div>
+                              <p className="text-[11px] font-medium text-foreground/60">{exp.title}</p>
+                              <p className="text-[9px] text-foreground/25 leading-snug">{exp.desc}</p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                ))}
-              </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           </motion.div>
         </div>

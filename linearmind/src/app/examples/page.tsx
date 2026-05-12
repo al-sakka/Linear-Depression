@@ -2,7 +2,7 @@
 
 import { useState, type ReactNode } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Code2, Copy, Check, ChevronDown, ExternalLink } from 'lucide-react';
+import { Copy, Check, ChevronDown } from 'lucide-react';
 
 function PythonIcon({ className }: { className?: string }) {
   return (
@@ -658,7 +658,7 @@ function CodeBlock({ code, language }: { code: string; language: string }) {
           {copied ? 'Copied!' : 'Copy'}
         </button>
       </div>
-      <pre className="overflow-x-auto p-4 bg-[#0d1117] rounded-b-xl text-sm leading-relaxed">
+      <pre className="overflow-x-auto p-4 bg-surface rounded-b-xl text-sm leading-relaxed">
         <code className="text-foreground/80 font-mono text-xs">{code}</code>
       </pre>
     </div>
@@ -674,7 +674,7 @@ function ExampleCard({ example }: { example: CodeExample }) {
       layout
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-surface rounded-2xl border border-border overflow-hidden"
+      className="bg-surface rounded-2xl border border-border/50 overflow-hidden hover:border-border transition-colors"
     >
       {/* Header */}
       <button
@@ -752,18 +752,50 @@ export default function ExamplesPage() {
 
   return (
     <div className="min-h-screen particle-bg">
-      <div className="max-w-4xl mx-auto px-4 py-8">
-        {/* Header */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-          <div className="flex items-center gap-3 mb-2">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center">
-              <Code2 className="w-5 h-5 text-white" />
+      <div className="max-w-4xl mx-auto px-4 py-6 sm:py-8">
+        {/* Hero Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="relative mb-8 overflow-hidden rounded-2xl"
+        >
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/15 via-accent/10 to-secondary/10 rounded-2xl" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_50%,rgba(99,102,241,0.12),transparent_60%)]" />
+          <div className="relative p-6 sm:p-8">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div>
+                <motion.h1
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.1 }}
+                  className="text-2xl sm:text-3xl font-bold"
+                >
+                  <span className="gradient-text">Code Examples</span>
+                </motion.h1>
+                <motion.p
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.2 }}
+                  className="text-foreground/40 text-sm mt-1"
+                >
+                  Copy-paste ready implementations — from beginner-friendly to production-grade.
+                </motion.p>
+              </div>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.3 }}
+                className="flex flex-wrap gap-2"
+              >
+                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-xs">
+                  <span className="text-primary-light font-medium">{examples.length} Examples</span>
+                </div>
+                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-accent/10 border border-accent/20 text-xs">
+                  <span className="text-accent font-medium">3 Languages</span>
+                </div>
+              </motion.div>
             </div>
-            <h1 className="text-3xl font-bold">Code Examples</h1>
           </div>
-          <p className="text-foreground/50 mb-6">
-            Copy-paste ready implementations of Linear Regression — from beginner-friendly to production-grade.
-          </p>
         </motion.div>
 
         {/* Filters */}
@@ -771,32 +803,32 @@ export default function ExamplesPage() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="flex flex-wrap gap-4 mb-8"
+          className="flex flex-wrap gap-3 mb-8"
         >
-          <div className="flex gap-1 bg-surface rounded-xl p-1 border border-border">
+          <div className="flex gap-1 bg-surface rounded-xl p-1 border border-border/50">
             {(['all', 'Python', 'JavaScript', 'TypeScript'] as const).map(lang => (
               <button
                 key={lang}
                 onClick={() => setFilter(lang)}
-                className={`px-3 py-1.5 text-xs rounded-lg transition-colors ${
+                className={`px-3 py-1.5 text-xs rounded-lg transition-all ${
                   filter === lang
-                    ? 'bg-primary/20 text-primary-light font-bold'
-                    : 'text-foreground/40 hover:text-foreground/70'
+                    ? 'bg-primary/15 text-primary-light font-bold shadow-sm'
+                    : 'text-foreground/40 hover:text-foreground/70 hover:bg-surface-light/50'
                 }`}
               >
                 {lang === 'all' ? 'All Languages' : lang}
               </button>
             ))}
           </div>
-          <div className="flex gap-1 bg-surface rounded-xl p-1 border border-border">
+          <div className="flex gap-1 bg-surface rounded-xl p-1 border border-border/50">
             {(['all', 'beginner', 'intermediate', 'advanced'] as const).map(d => (
               <button
                 key={d}
                 onClick={() => setDiffFilter(d)}
-                className={`px-3 py-1.5 text-xs rounded-lg transition-colors ${
+                className={`px-3 py-1.5 text-xs rounded-lg transition-all ${
                   diffFilter === d
-                    ? 'bg-primary/20 text-primary-light font-bold'
-                    : 'text-foreground/40 hover:text-foreground/70'
+                    ? 'bg-primary/15 text-primary-light font-bold shadow-sm'
+                    : 'text-foreground/40 hover:text-foreground/70 hover:bg-surface-light/50'
                 }`}
               >
                 {d === 'all' ? 'All Levels' : d.charAt(0).toUpperCase() + d.slice(1)}
@@ -820,15 +852,19 @@ export default function ExamplesPage() {
         </div>
 
         {filtered.length === 0 && (
-          <div className="text-center py-16">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="text-center py-16 bg-surface border border-border/50 rounded-2xl"
+          >
             <p className="text-foreground/30 text-lg">No examples match your filters.</p>
             <button
               onClick={() => { setFilter('all'); setDiffFilter('all'); }}
-              className="mt-3 text-sm text-primary hover:underline"
+              className="mt-3 text-sm text-primary-light hover:underline"
             >
               Clear filters
             </button>
-          </div>
+          </motion.div>
         )}
 
         {/* Bottom tip */}
@@ -836,10 +872,10 @@ export default function ExamplesPage() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
-          className="mt-10 glass rounded-xl p-5 text-center"
+          className="mt-10 bg-surface border border-border/50 rounded-2xl p-5 text-center"
         >
           <p className="text-sm text-foreground/40">
-            💡 All examples are self-contained. Copy the code, paste into your editor, and run!
+            All examples are self-contained. Copy the code, paste into your editor, and run!
           </p>
           <p className="text-xs text-foreground/25 mt-1">
             Python examples need <code className="text-primary/60">pip install numpy scikit-learn pandas</code> — JS/TS examples have zero dependencies.

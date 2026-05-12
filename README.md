@@ -28,7 +28,7 @@ The platform covers the entire journey: from "What is a line?" all the way to "A
 
 | Category | What You Get |
 |---|---|
-| 📚 **Curriculum** | 12 modules, 26 lessons with rich markdown content |
+| 📚 **Curriculum** | 13 modules, 29 lessons with rich storytelling content |
 | 🎮 **Playground** | Click-to-add regression canvas with polynomial fit, gradient descent training, manual line mode |
 | 📊 **Visualizations** | 15+ interactive visualizations (slope-intercept, cost function, gradient descent, 3D loss landscape, residuals, etc.) |
 | 🤖 **AI Tutor** | Gemini-powered chatbot with 4 explanation modes (Beginner, Engineer, Child, Math) |
@@ -86,7 +86,7 @@ linearmind/
 │   │       ├── MetricsViz.tsx         # R², MSE, MAE, RMSE comparison
 │   │       └── NeuronBridgeViz.tsx    # Linear regression → neural network bridge
 │   └── lib/
-│       ├── curriculum.ts             # All 12 modules, 26 lessons, content
+│       ├── curriculum.ts             # All 13 modules, 29 lessons, content
 │       ├── quiz-data.ts              # 83 quiz questions with explanations
 │       ├── store.ts                  # Zustand store (progress, XP, streaks, achievements)
 │       ├── firebase.ts               # Firebase app initialization
@@ -101,7 +101,7 @@ linearmind/
 
 ---
 
-## 📚 Curriculum (12 Modules, 26 Lessons)
+## 📚 Curriculum (13 Modules, 29 Lessons)
 
 ### Module 1: 🎯 Introduction
 - **What is Linear Regression?** — Foundation of predictive modeling with interactive regression canvas

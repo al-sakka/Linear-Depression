@@ -85,6 +85,9 @@ export default function LessonPage({
 
   if (!module || !lesson) return notFound();
 
+  const lessonIndex = module.lessons.findIndex(l => l.id === lessonId);
+  const totalInModule = module.lessons.length;
+
   if (!hydrated || loading || !authenticated) {
     return (
       <div className="min-h-screen particle-bg flex items-center justify-center">
@@ -110,6 +113,7 @@ export default function LessonPage({
     } else {
       router.push('/learn');
     }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
@@ -122,7 +126,7 @@ export default function LessonPage({
           className="flex items-center gap-2 text-sm text-foreground/40 mb-6 flex-wrap"
         >
           <Link href="/learn" className="hover:text-foreground/60 transition-colors">
-            Curriculum
+            Learning Path
           </Link>
           <ChevronRight className="w-3 h-3" />
           <Link
@@ -135,26 +139,70 @@ export default function LessonPage({
           <span className="text-foreground/60">{lesson.title}</span>
         </motion.div>
 
-        {/* Header */}
+        {/* Lesson header card */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mb-8"
+          className="relative rounded-2xl overflow-hidden mb-8"
         >
-          <div className="flex items-center gap-3 mb-2">
-            <div
-              className="w-10 h-10 rounded-lg flex items-center justify-center text-xl"
-              style={{ backgroundColor: `${module.color}15` }}
-            >
-              {module.icon}
+          <div
+            className="absolute inset-0 opacity-10"
+            style={{ background: `radial-gradient(circle at 10% 50%, ${module.color}, transparent 50%)` }}
+          />
+          <div className="relative bg-surface border border-border/50 rounded-2xl p-6 sm:p-8">
+            <div className="flex items-start gap-4">
+              <motion.div
+                initial={{ scale: 0, rotate: -30 }}
+                animate={{ scale: 1, rotate: 0 }}
+                transition={{ type: 'spring', stiffness: 250, delay: 0.1 }}
+                className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl shrink-0"
+                style={{ backgroundColor: `${module.color}15`, border: `1px solid ${module.color}25` }}
+              >
+                {module.icon}
+              </motion.div>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full" style={{ color: module.color, backgroundColor: `${module.color}15` }}>
+                    Lesson {lessonIndex + 1} of {totalInModule}
+                  </span>
+                  {isComplete && (
+                    <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-success/15 text-success flex items-center gap-1">
+                      <CheckCircle2 className="w-3 h-3" /> Completed
+                    </span>
+                  )}
+                </div>
+                <h1 className="text-2xl sm:text-3xl font-bold">{lesson.title}</h1>
+                <p className="text-sm text-foreground/40 mt-1">{lesson.description}</p>
+              </div>
             </div>
-            <div>
-              <p className="text-xs text-foreground/40">{module.title}</p>
-              <h1 className="text-2xl font-bold">{lesson.title}</h1>
+
+            {/* Mini progress dots */}
+            <div className="flex items-center gap-1.5 mt-5">
+              {module.lessons.map((l, i) => {
+                const done = progress.completedLessons.includes(`${module.id}/${l.id}`);
+                const isCurrent = l.id === lessonId;
+                return (
+                  <Link key={l.id} href={`/learn/${moduleId}/${l.id}`}>
+                    <motion.div
+                      whileHover={{ scale: 1.3 }}
+                      className={`h-1.5 rounded-full transition-all cursor-pointer ${
+                        isCurrent
+                          ? 'w-8'
+                          : 'w-3 hover:w-5'
+                      }`}
+                      style={{
+                        backgroundColor: isCurrent
+                          ? module.color
+                          : done
+                          ? 'rgb(16, 185, 129)'
+                          : 'var(--surface-light)',
+                      }}
+                      title={l.title}
+                    />
+                  </Link>
+                );
+              })}
             </div>
-            {isComplete && (
-              <CheckCircle2 className="w-6 h-6 text-success ml-auto" />
-            )}
           </div>
         </motion.div>
 
@@ -163,7 +211,7 @@ export default function LessonPage({
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="glass rounded-xl p-6 sm:p-8 mb-6"
+          className="rounded-2xl bg-surface border border-border/50 p-6 sm:p-8 mb-6"
         >
           <div className="space-y-4">
             {lesson.content.map((paragraph, i) => (
@@ -205,13 +253,25 @@ export default function LessonPage({
             transition={{ delay: 0.3 }}
             className="mb-6"
           >
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-6 h-6 rounded bg-primary/20 flex items-center justify-center">
-                <span className="text-sm">🎮</span>
-              </div>
-              <h2 className="font-semibold">Interactive Demo</h2>
-            </div>
             <InteractiveDemo type={lesson.interactiveType} />
+          </motion.div>
+        )}
+
+        {/* Static Illustration */}
+        {!lesson.interactiveType && lesson.image && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="mb-6"
+          >
+            <div className="rounded-2xl border border-border/50 bg-surface p-4 flex justify-center">
+              <img
+                src={lesson.image}
+                alt={`${lesson.title} illustration`}
+                className="max-w-full h-auto rounded-lg"
+              />
+            </div>
           </motion.div>
         )}
 
@@ -225,7 +285,7 @@ export default function LessonPage({
           {prev ? (
             <Link
               href={`/learn/${prev.moduleId}/${prev.lessonId}`}
-              className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-surface-light text-foreground/60 hover:text-foreground transition-colors text-sm"
+              className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-surface border border-border/50 text-foreground/60 hover:text-foreground hover:border-primary/30 transition-all text-sm"
             >
               <ChevronLeft className="w-4 h-4" />
               Previous
@@ -236,15 +296,15 @@ export default function LessonPage({
 
           <button
             onClick={handleComplete}
-            className={`flex items-center gap-2 px-6 py-2.5 rounded-lg font-medium text-sm transition-all ${
+            className={`flex items-center gap-2 px-6 py-2.5 rounded-xl font-medium text-sm transition-all ${
               isComplete
-                ? 'bg-surface-light text-foreground/60 hover:text-foreground'
+                ? 'bg-surface border border-border/50 text-foreground/60 hover:text-foreground hover:border-primary/30'
                 : 'bg-gradient-to-r from-primary to-secondary text-white glow hover:opacity-90'
             }`}
           >
             {isComplete ? (
               <>
-                {next ? 'Next Lesson' : 'Back to Curriculum'}
+                {next ? 'Next Lesson' : 'Back to Learning Path'}
                 <ChevronRight className="w-4 h-4" />
               </>
             ) : (

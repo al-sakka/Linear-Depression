@@ -113,7 +113,7 @@ const features = [
   {
     icon: BookOpen,
     title: 'Structured Curriculum',
-    description: '12 modules from basics to neural networks, with progressive difficulty',
+    description: '13 modules from history to neural networks, with progressive difficulty',
     color: '#6366f1',
   },
   {

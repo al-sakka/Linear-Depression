@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400">
+  <defs>
+    <radialGradient id="bg1" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#1e1b4b"/>
+      <stop offset="100%" stop-color="#0f0a1a"/>
+    </radialGradient>
+    <radialGradient id="star" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fbbf24"/>
+      <stop offset="100%" stop-color="#fbbf2400"/>
+    </radialGradient>
+    <filter id="glow1">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect width="800" height="400" fill="url(#bg1)"/>
+  <!-- Stars -->
+  <circle cx="120" cy="60" r="1.5" fill="#e2e8f0" opacity="0.6"/>
+  <circle cx="340" cy="40" r="1" fill="#e2e8f0" opacity="0.4"/>
+  <circle cx="560" cy="80" r="1.5" fill="#e2e8f0" opacity="0.5"/>
+  <circle cx="700" cy="50" r="1" fill="#e2e8f0" opacity="0.7"/>
+  <circle cx="200" cy="120" r="1" fill="#e2e8f0" opacity="0.3"/>
+  <circle cx="650" cy="140" r="1.5" fill="#e2e8f0" opacity="0.5"/>
+  <circle cx="80" cy="200" r="1" fill="#e2e8f0" opacity="0.4"/>
+  <circle cx="750" cy="180" r="1" fill="#e2e8f0" opacity="0.6"/>
+  <circle cx="450" cy="30" r="1" fill="#e2e8f0" opacity="0.5"/>
+  <circle cx="300" cy="350" r="1" fill="#e2e8f0" opacity="0.3"/>
+  <circle cx="600" cy="320" r="1.5" fill="#e2e8f0" opacity="0.4"/>
+  <circle cx="150" cy="300" r="1" fill="#e2e8f0" opacity="0.5"/>
+  <!-- Telescope -->
+  <g transform="translate(100,200)">
+    <rect x="0" y="100" width="80" height="8" rx="2" fill="#64748b" transform="rotate(-35,40,104)"/>
+    <rect x="60" y="65" width="120" height="14" rx="3" fill="#475569" transform="rotate(-35,120,72)"/>
+    <circle cx="155" cy="32" r="12" fill="none" stroke="#94a3b8" stroke-width="2"/>
+    <line x1="20" y1="120" x2="10" y2="180" stroke="#64748b" stroke-width="3"/>
+    <line x1="60" y1="120" x2="70" y2="180" stroke="#64748b" stroke-width="3"/>
+  </g>
+  <!-- Ceres orbit arc -->
+  <path d="M 300,300 Q 400,80 700,200" fill="none" stroke="#6366f1" stroke-width="2" stroke-dasharray="8,6" opacity="0.6" filter="url(#glow1)"/>
+  <!-- Observed points on orbit -->
+  <circle cx="320" cy="275" r="4" fill="#fbbf24" filter="url(#glow1)"/>
+  <circle cx="345" cy="245" r="4" fill="#fbbf24" filter="url(#glow1)"/>
+  <circle cx="360" cy="225" r="4" fill="#fbbf24" filter="url(#glow1)"/>
+  <circle cx="378" cy="200" r="4" fill="#fbbf24" filter="url(#glow1)"/>
+  <circle cx="395" cy="175" r="4" fill="#fbbf24" filter="url(#glow1)"/>
+  <circle cx="410" cy="155" r="3" fill="#fbbf24" opacity="0.7"/>
+  <circle cx="425" cy="138" r="3" fill="#fbbf24" opacity="0.5"/>
+  <!-- Predicted position with ? -->
+  <circle cx="620" cy="195" r="10" fill="none" stroke="#10b981" stroke-width="2" stroke-dasharray="4,3" filter="url(#glow1)"/>
+  <text x="615" y="200" font-family="serif" font-size="16" fill="#10b981" font-weight="bold">?</text>
+  <!-- Ceres label -->
+  <circle cx="620" cy="195" r="3" fill="#d97706" opacity="0.8"/>
+  <!-- Labels -->
+  <text x="300" y="340" font-family="system-ui,sans-serif" font-size="13" fill="#94a3b8">41 observations</text>
+  <text x="580" y="240" font-family="system-ui,sans-serif" font-size="13" fill="#10b981">Gauss's prediction</text>
+  <text x="400" y="380" font-family="system-ui,sans-serif" font-size="18" fill="#e2e8f0" font-weight="600" text-anchor="middle">The Discovery of Ceres, 1801</text>
+  <!-- Best fit curve (solid) -->
+  <path d="M 300,300 Q 400,80 620,195" fill="none" stroke="#a855f7" stroke-width="1.5" opacity="0.5"/>
+</svg>

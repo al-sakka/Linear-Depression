@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400">
+  <defs>
+    <linearGradient id="bg7" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1e1b4b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <filter id="glow7">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect width="800" height="400" fill="url(#bg7)"/>
+  <text x="400" y="35" font-family="system-ui,sans-serif" font-size="16" fill="#e2e8f0" font-weight="600" text-anchor="middle">Feature Selection &amp; Engineering</text>
+  <!-- Left: Feature selection funnel -->
+  <g transform="translate(40,55)">
+    <text x="140" y="15" font-family="system-ui,sans-serif" font-size="13" fill="#a5b4fc" font-weight="600" text-anchor="middle">Feature Selection</text>
+    <!-- Funnel shape -->
+    <polygon points="30,40 250,40 200,280 80,280" fill="#1e293b" stroke="#6366f130" stroke-width="1"/>
+    <!-- Features entering (top) -->
+    <rect x="50" y="50" width="80" height="22" rx="4" fill="#6366f120" stroke="#6366f150" stroke-width="1"/>
+    <text x="90" y="65" font-family="system-ui,sans-serif" font-size="9" fill="#a5b4fc" text-anchor="middle">size ✓</text>
+    <rect x="140" y="50" width="80" height="22" rx="4" fill="#6366f120" stroke="#6366f150" stroke-width="1"/>
+    <text x="180" y="65" font-family="system-ui,sans-serif" font-size="9" fill="#a5b4fc" text-anchor="middle">bedrooms ✓</text>
+    <rect x="60" y="82" width="80" height="22" rx="4" fill="#ef444420" stroke="#ef444450" stroke-width="1"/>
+    <text x="100" y="97" font-family="system-ui,sans-serif" font-size="9" fill="#f87171" text-anchor="middle">color ✗</text>
+    <rect x="150" y="82" width="75" height="22" rx="4" fill="#6366f120" stroke="#6366f150" stroke-width="1"/>
+    <text x="188" y="97" font-family="system-ui,sans-serif" font-size="9" fill="#a5b4fc" text-anchor="middle">location ✓</text>
+    <rect x="70" y="114" width="80" height="22" rx="4" fill="#ef444420" stroke="#ef444450" stroke-width="1"/>
+    <text x="110" y="129" font-family="system-ui,sans-serif" font-size="9" fill="#f87171" text-anchor="middle">owner_name ✗</text>
+    <rect x="160" y="114" width="55" height="22" rx="4" fill="#6366f120" stroke="#6366f150" stroke-width="1"/>
+    <text x="188" y="129" font-family="system-ui,sans-serif" font-size="9" fill="#a5b4fc" text-anchor="middle">age ✓</text>
+    <!-- Filter zone -->
+    <line x1="65" y1="160" x2="215" y2="160" stroke="#f59e0b" stroke-width="1" stroke-dasharray="4,3"/>
+    <text x="140" y="175" font-family="system-ui,sans-serif" font-size="9" fill="#fbbf24" text-anchor="middle">Correlation filter</text>
+    <text x="140" y="190" font-family="system-ui,sans-serif" font-size="9" fill="#fbbf24" text-anchor="middle">VIF &lt; 10 check</text>
+    <!-- Output (bottom) -->
+    <rect x="90" y="220" width="100" height="50" rx="6" fill="#10b98120" stroke="#10b98150" stroke-width="1"/>
+    <text x="140" y="242" font-family="system-ui,sans-serif" font-size="10" fill="#34d399" text-anchor="middle">4 features</text>
+    <text x="140" y="258" font-family="system-ui,sans-serif" font-size="9" fill="#34d399" text-anchor="middle">kept from 6</text>
+  </g>
+  <!-- Right: Feature engineering -->
+  <g transform="translate(400,55)">
+    <text x="180" y="15" font-family="system-ui,sans-serif" font-size="13" fill="#c084fc" font-weight="600" text-anchor="middle">Feature Engineering</text>
+    <!-- Original features -->
+    <rect x="10" y="35" width="120" height="30" rx="6" fill="#1e293b" stroke="#a855f740" stroke-width="1"/>
+    <text x="70" y="55" font-family="system-ui,sans-serif" font-size="10" fill="#c084fc" text-anchor="middle">size = 120 m²</text>
+    <rect x="150" y="35" width="120" height="30" rx="6" fill="#1e293b" stroke="#a855f740" stroke-width="1"/>
+    <text x="210" y="55" font-family="system-ui,sans-serif" font-size="10" fill="#c084fc" text-anchor="middle">beds = 3</text>
+    <rect x="280" y="35" width="100" height="30" rx="6" fill="#1e293b" stroke="#a855f740" stroke-width="1"/>
+    <text x="330" y="55" font-family="system-ui,sans-serif" font-size="10" fill="#c084fc" text-anchor="middle">year = 2015</text>
+    <!-- Arrow down -->
+    <text x="180" y="90" font-family="system-ui,sans-serif" font-size="20" fill="#64748b" text-anchor="middle">↓ Transform</text>
+    <!-- Engineered features -->
+    <rect x="10" y="105" width="95" height="28" rx="5" fill="#10b98115" stroke="#10b98140" stroke-width="1"/>
+    <text x="58" y="124" font-family="system-ui,sans-serif" font-size="9" fill="#34d399" text-anchor="middle">size² = 14400</text>
+    <rect x="115" y="105" width="110" height="28" rx="5" fill="#10b98115" stroke="#10b98140" stroke-width="1"/>
+    <text x="170" y="124" font-family="system-ui,sans-serif" font-size="9" fill="#34d399" text-anchor="middle">size×beds = 360</text>
+    <rect x="235" y="105" width="135" height="28" rx="5" fill="#10b98115" stroke="#10b98140" stroke-width="1"/>
+    <text x="302" y="124" font-family="system-ui,sans-serif" font-size="9" fill="#34d399" text-anchor="middle">building_age = 11</text>
+    <rect x="50" y="143" width="130" height="28" rx="5" fill="#10b98115" stroke="#10b98140" stroke-width="1"/>
+    <text x="115" y="162" font-family="system-ui,sans-serif" font-size="9" fill="#34d399" text-anchor="middle">price_per_m² = ratio</text>
+    <rect x="200" y="143" width="130" height="28" rx="5" fill="#10b98115" stroke="#10b98140" stroke-width="1"/>
+    <text x="265" y="162" font-family="system-ui,sans-serif" font-size="9" fill="#34d399" text-anchor="middle">is_downtown = 0/1</text>
+    <!-- Methods box -->
+    <rect x="20" y="195" width="340" height="120" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+    <text x="190" y="218" font-family="system-ui,sans-serif" font-size="11" fill="#e2e8f0" font-weight="600" text-anchor="middle">Selection Methods</text>
+    <text x="40" y="242" font-family="system-ui,sans-serif" font-size="10" fill="#6366f1">• Correlation analysis</text>
+    <text x="210" y="242" font-family="system-ui,sans-serif" font-size="10" fill="#6366f1">• RFE</text>
+    <text x="40" y="262" font-family="system-ui,sans-serif" font-size="10" fill="#a855f7">• L1 Lasso (auto zero)</text>
+    <text x="210" y="262" font-family="system-ui,sans-serif" font-size="10" fill="#a855f7">• VIF check</text>
+    <text x="40" y="290" font-family="system-ui,sans-serif" font-size="10" fill="#64748b" font-style="italic">"Good features + simple model beats</text>
+    <text x="40" y="305" font-family="system-ui,sans-serif" font-size="10" fill="#64748b" font-style="italic"> raw features + complex model." — Andrew Ng</text>
+  </g>
+</svg>
