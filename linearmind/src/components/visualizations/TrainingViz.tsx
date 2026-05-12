@@ -11,7 +11,7 @@ export default function TrainingViz() {
   const [epoch, setEpoch] = useState(0);
   const [isTraining, setIsTraining] = useState(false);
   const [lossHistory, setLossHistory] = useState<{ epoch: number; loss: number }[]>([]);
-  const [lr, setLr] = useState(0.01);
+  const [lr, setLr] = useState(0.05);
 
   // Normalize x to [0,1] for stable gradient computation
   const xMin = 50;
@@ -140,8 +140,8 @@ export default function TrainingViz() {
   useEffect(() => {
     if (!isTraining) return;
     const interval = setInterval(() => {
-      trainStep();
-    }, 50);
+      for (let i = 0; i < 10; i++) trainStep();
+    }, 30);
     return () => clearInterval(interval);
   }, [isTraining, trainStep]);
 

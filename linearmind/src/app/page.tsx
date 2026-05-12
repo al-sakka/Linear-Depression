@@ -113,7 +113,7 @@ const features = [
   {
     icon: BookOpen,
     title: 'Structured Curriculum',
-    description: '7 modules from basics to advanced concepts, with progressive difficulty',
+    description: '12 modules from basics to neural networks, with progressive difficulty',
     color: '#6366f1',
   },
   {
@@ -307,10 +307,10 @@ export default function Home() {
             className="mt-16 grid grid-cols-2 sm:grid-cols-4 gap-4"
           >
             {[
-              { value: '7', label: 'Modules', icon: '📚' },
-              { value: '12', label: 'Lessons', icon: '📖' },
-              { value: '15+', label: 'Quiz Questions', icon: '🧪' },
-              { value: '7', label: 'Visualizations', icon: '📊' },
+              { value: '12', label: 'Modules', icon: '📚' },
+              { value: '26', label: 'Lessons', icon: '📖' },
+              { value: '80+', label: 'Quiz Questions', icon: '🧪' },
+              { value: '15', label: 'Visualizations', icon: '📊' },
             ].map((stat, i) => (
               <motion.div
                 key={stat.label}

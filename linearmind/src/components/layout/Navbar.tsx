@@ -16,6 +16,7 @@ import {
   Menu,
   X,
   Lock,
+  Code2,
 } from 'lucide-react';
 import { useState } from 'react';
 import { useHydrated } from '@/lib/useHydrated';
@@ -24,6 +25,7 @@ const navLinks = [
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard, protected: true },
   { href: '/learn', label: 'Learn', icon: BookOpen, protected: true },
   { href: '/quiz', label: 'Quiz', icon: HelpCircle, protected: true },
+  { href: '/examples', label: 'Examples', icon: Code2, protected: false },
   { href: '/playground', label: 'Playground', icon: Brain, protected: false },
   { href: '/achievements', label: 'Achievements', icon: Trophy, protected: true },
 ];

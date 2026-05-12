@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { getTotalLessons } from '@/lib/curriculum';
 
 interface UserProgress {
   completedLessons: string[]; // "moduleId/lessonId"
@@ -129,8 +130,8 @@ export const useStore = create<AppState>()(
 
       getCompletionPercentage: () => {
         const state = get();
-        const totalLessons = 12; // total across all modules
-        return Math.round((state.progress.completedLessons.length / totalLessons) * 100);
+        const totalLessons = getTotalLessons();
+        return Math.min(100, Math.round((state.progress.completedLessons.length / totalLessons) * 100));
       },
 
       isLessonComplete: (moduleId, lessonId) => {

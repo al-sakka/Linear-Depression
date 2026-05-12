@@ -20,6 +20,14 @@ const GradientDescentViz = dynamic(() => import('@/components/visualizations/Gra
 const TrainingViz = dynamic(() => import('@/components/visualizations/TrainingViz'), { ssr: false });
 const FailureCasesViz = dynamic(() => import('@/components/visualizations/FailureCasesViz'), { ssr: false });
 const ComparisonViz = dynamic(() => import('@/components/visualizations/ComparisonViz'), { ssr: false });
+const MultivariateViz = dynamic(() => import('@/components/visualizations/MultivariateViz'), { ssr: false });
+const FeatureScalingViz = dynamic(() => import('@/components/visualizations/FeatureScalingViz'), { ssr: false });
+const CorrelationViz = dynamic(() => import('@/components/visualizations/CorrelationViz'), { ssr: false });
+const BiasVarianceViz = dynamic(() => import('@/components/visualizations/BiasVarianceViz'), { ssr: false });
+const MetricsViz = dynamic(() => import('@/components/visualizations/MetricsViz'), { ssr: false });
+const NeuronBridgeViz = dynamic(() => import('@/components/visualizations/NeuronBridgeViz'), { ssr: false });
+const GradientDescent3DViz = dynamic(() => import('@/components/visualizations/GradientDescent3DViz'), { ssr: false });
+const ResidualsViz = dynamic(() => import('@/components/visualizations/ResidualsViz'), { ssr: false });
 
 function InteractiveDemo({ type }: { type: string }) {
   switch (type) {
@@ -31,12 +39,28 @@ function InteractiveDemo({ type }: { type: string }) {
       return <CostFunctionViz />;
     case 'gradient-descent':
       return <GradientDescentViz />;
+    case 'gradient-descent-3d':
+      return <GradientDescent3DViz />;
     case 'training':
       return <TrainingViz />;
     case 'failure-cases':
       return <FailureCasesViz />;
     case 'comparison':
       return <ComparisonViz />;
+    case 'multivariate':
+      return <MultivariateViz />;
+    case 'feature-scaling':
+      return <FeatureScalingViz />;
+    case 'correlation':
+      return <CorrelationViz />;
+    case 'bias-variance':
+      return <BiasVarianceViz />;
+    case 'metrics':
+      return <MetricsViz />;
+    case 'neuron-bridge':
+      return <NeuronBridgeViz />;
+    case 'residuals':
+      return <ResidualsViz />;
     default:
       return null;
   }
