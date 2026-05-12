@@ -3,7 +3,7 @@
 import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useStore } from '@/lib/store';
-import { quizQuestions, getQuizTypeLabel } from '@/lib/quiz-data';
+import { quizQuestions, getQuizTypeLabel, getDifficultyLabel } from '@/lib/quiz-data';
 import { curriculum } from '@/lib/curriculum';
 import { CheckCircle2, XCircle, ChevronRight, RotateCcw, Trophy } from 'lucide-react';
 import toast from 'react-hot-toast';
@@ -229,9 +229,12 @@ export default function QuizPage() {
             exit={{ opacity: 0, x: -20 }}
           >
             {/* Question type badge */}
-            <div className="mb-4">
+            <div className="mb-4 flex items-center gap-2">
               <span className="text-xs bg-surface-light px-2.5 py-1 rounded-full text-foreground/50">
                 {getQuizTypeLabel(currentQ.type)}
+              </span>
+              <span className={`text-xs px-2.5 py-1 rounded-full border ${getDifficultyLabel(currentQ.difficulty).color}`}>
+                {getDifficultyLabel(currentQ.difficulty).label}
               </span>
             </div>
 

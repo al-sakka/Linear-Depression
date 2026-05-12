@@ -125,7 +125,7 @@ const features = [
   {
     icon: Bot,
     title: 'LinearMind AI',
-    description: 'Ask questions anytime. Get explanations at your level — beginner to math-heavy',
+    description: 'Ask questions anytime. Get explanations at your level — beginner to Math',
     color: '#06b6d4',
   },
   {

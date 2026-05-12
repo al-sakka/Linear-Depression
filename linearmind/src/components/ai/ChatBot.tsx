@@ -14,7 +14,7 @@ interface Message {
   content: string;
 }
 
-const EXPLAIN_LEVELS = ['Beginner', 'Engineer', 'Child', 'Math-heavy'] as const;
+const EXPLAIN_LEVELS = ['Beginner', 'Engineer', 'Child', 'Math'] as const;
 
 export default function ChatBot() {
   const { isChatOpen, toggleChat } = useStore();
@@ -80,7 +80,7 @@ export default function ChatBot() {
           role: 'assistant', 
           content: `🧒 Imagine you have a bunch of dots on paper. Linear Regression is like finding the best straight ruler position that goes through (or near) all the dots! The closer the ruler is to all dots, the better your "machine" can guess where new dots might be.`
         }]);
-      } else if (explainLevel === 'Math-heavy') {
+      } else if (explainLevel === 'Math') {
         setMessages((prev) => [...prev, { 
           role: 'assistant', 
           content: `📐 Formally: Given a dataset {(xᵢ, yᵢ)}ⁿᵢ₌₁, we seek parameters w*, b* = argmin_{w,b} (1/n)Σᵢ(yᵢ - (wxᵢ + b))². Taking partial derivatives: ∂L/∂w = -(2/n)Σxᵢ(yᵢ - ŷᵢ) and ∂L/∂b = -(2/n)Σ(yᵢ - ŷᵢ). Setting these to zero yields the normal equations, or we apply iterative GD: w ← w - α∂L/∂w.`
@@ -123,10 +123,20 @@ export default function ChatBot() {
       {/* Chat Panel */}
       <AnimatePresence>
         {isChatOpen && (
+          <>
+          {/* Backdrop — click anywhere outside to close */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={toggleChat}
+            className="fixed inset-0 z-40"
+          />
           <motion.div
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
+            onClick={(e) => e.stopPropagation()}
             className="fixed bottom-6 right-6 z-50 w-[380px] h-[520px] glass-strong rounded-2xl flex flex-col overflow-hidden shadow-2xl"
           >
             {/* Header */}
@@ -143,7 +153,8 @@ export default function ChatBot() {
               <div className="flex items-center gap-1">
                 <button
                   onClick={() => setMessages([{ role: 'assistant', content: 'Hi! I\'m your LinearMind AI for Linear Regression. Ask me anything about regression, cost functions, gradient descent, or neural networks! 🧠' }])}
-                  className="text-foreground/40 hover:text-foreground transition-colors p-1"
+                  disabled={isLoading}
+                  className="text-foreground/40 hover:text-foreground transition-colors p-1 disabled:opacity-30 disabled:cursor-not-allowed"
                   title="Clear chat"
                 >
                   <Trash2 className="w-4 h-4" />
@@ -281,6 +292,7 @@ export default function ChatBot() {
               </form>
             </div>
           </motion.div>
+          </>
         )}
       </AnimatePresence>
     </>

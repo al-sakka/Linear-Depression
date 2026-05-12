@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
         Beginner: 'Explain concepts simply, avoid jargon, use everyday analogies.',
         Engineer: 'Be precise, use technical terminology, include mathematical notation.',
         Child: 'Explain like talking to a 10-year-old. Use fun analogies, simple words, and emojis.',
-        'Math-heavy': 'Focus on mathematical rigor. Show derivations, formulas, and proofs.',
+        'Math': 'Focus on mathematical rigor. Show derivations, formulas, and proofs.',
       };
       systemPrompt += `\n\nExplanation style: ${levelPrompts[explainLevel] || ''}`;
     }
