@@ -1,0 +1,988 @@
+\documentclass[12pt, a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{setspace}
+\usepackage{amsmath}
+\usepackage{xcolor}
+\usepackage{newtxtext,newtxmath}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{titlesec}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{longtable}
+
+\definecolor{NTRA_Blue}{RGB}{0,82,155}
+\definecolor{correct}{RGB}{16,185,129}
+
+\geometry{a4paper, margin=1in, headheight=14pt}
+\setstretch{1.15}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.3em}
+
+\hypersetup{colorlinks=true, linkcolor=NTRA_Blue, urlcolor=NTRA_Blue}
+
+\titleformat{\section}{\Large\bfseries\color{NTRA_Blue}}{\thesection}{0.8em}{}[\titlerule]
+\titleformat{\subsection}{\large\bfseries}{\thesubsection}{0.8em}{}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{LinearMind MCQ Questions}
+\fancyhead[R]{\nouppercase{\leftmark}}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\newcommand{\question}[1]{\vspace{0.6em}\noindent\textbf{#1}}
+
+\begin{document}
+
+\begin{titlepage}
+    \centering
+    \thispagestyle{empty}
+
+    \begin{minipage}[c]{0.2\textwidth}
+        \begin{flushleft}
+            \includegraphics[width=2.5cm]{Linear-Depression/linearmind/public/illustrations/Picture1.png}
+        \end{flushleft}
+    \end{minipage}%
+    \hfill
+    \begin{minipage}[c]{0.5\textwidth}
+        \centering
+        \setstretch{1.1}
+        {\large \textbf{Cairo University}} \\
+        {\large Faculty of Engineering} \\
+        {\large Electronics \& Communications Dept.}
+    \end{minipage}%
+    \hfill
+    \begin{minipage}[c]{0.2\textwidth}
+        \begin{flushright}
+            \includegraphics[width=2.5cm]{Linear-Depression/linearmind/public/illustrations/Picture2.jpg}
+        \end{flushright}
+    \end{minipage}
+
+    \vspace{3cm}
+    \rule{\linewidth}{0.8mm} \\[0.5cm]
+    {\color{NTRA_Blue} \huge \bfseries MCQ Questions \& Answers} \\[0.3cm]
+    {\color{NTRA_Blue} \LARGE LinearMind Platform} \\[0.4cm]
+    {\color{NTRA_Blue} \large 82 Questions across 12 Modules} \\
+    \rule{\linewidth}{0.8mm}
+
+    \vfill
+    \begin{center}
+        \setstretch{1.5}
+        \textbf{Prepared by:} \\[0.3cm]
+        \begin{tabular}{l r}
+            \textbf{Abdallah Essam Mohamed Mahmoud} & \hspace{1cm} ID: 9220479 \\
+            \textbf{Zeyad Antar Othman Abu-Zaid} & \hspace{1cm} ID: 9220331 \\
+            \textbf{Abdelrahman Hatem Nasr Youssef} & \hspace{1cm} ID: 9220461 \\
+        \end{tabular}
+    \end{center}
+    \vfill
+    \rule{0.3\linewidth}{0.2mm} \\
+    {\large May 2026}
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+%% ============================================================
+%%                      QUESTIONS
+%% ============================================================
+
+\section{Introduction (6 Questions)}
+
+\question{Q1. What does Linear Regression try to find?}
+\begin{enumerate}[label=\alph*)]
+    \item The average of all data points
+    \item The best straight line that fits the data
+    \item The maximum value in the dataset
+    \item Clusters in the data
+\end{enumerate}
+
+\question{Q2. Which type of problem is Linear Regression designed to solve?}
+\begin{enumerate}[label=\alph*)]
+    \item Classification: assigning categories
+    \item Regression: predicting continuous values
+    \item Clustering: grouping similar items
+    \item Ranking: ordering items
+\end{enumerate}
+
+\question{Q3. You want to predict house prices based on square footage. Which approach fits best?}
+\begin{enumerate}[label=\alph*)]
+    \item K-Means Clustering
+    \item Linear Regression
+    \item Decision Tree Classification
+    \item Image recognition with CNN
+\end{enumerate}
+
+\question{Q4. On a scatter plot, what does a good linear regression fit look like?}
+\begin{enumerate}[label=\alph*)]
+    \item All points stacked vertically
+    \item Points scattered randomly with no pattern
+    \item Points roughly following a straight line with the regression line passing through them
+    \item Points forming a perfect circle
+\end{enumerate}
+
+\question{Q5. You have a dataset with 3 features: temperature, humidity, and ``temperature $\times$ 2''. You apply multiple linear regression. What problem will you encounter?}
+\begin{enumerate}[label=\alph*)]
+    \item The model will train faster
+    \item Perfect multicollinearity: the design matrix is singular and the closed-form solution fails
+    \item The model will overfit
+    \item The MSE will be negative
+\end{enumerate}
+
+\question{Q6. Linear Regression assumes a linear relationship between inputs and outputs. Which of these relationships can it still model correctly?}
+\begin{enumerate}[label=\alph*)]
+    \item $y = \sin(x)$
+    \item $y = 3x_1^2 + 2x_2$ (if $x_1^2$ is given as a feature)
+    \item $y = e^x$
+    \item $y = x_1 \times x_2$ (interaction without feature engineering)
+\end{enumerate}
+
+%% ============================================================
+\section{The Mathematics (7 Questions)}
+%% ============================================================
+
+\question{Q7. In the equation $y = mx + b$, what does ``m'' represent?}
+\begin{enumerate}[label=\alph*)]
+    \item The y-intercept
+    \item The mean of the data
+    \item The slope of the line
+    \item The number of data points
+\end{enumerate}
+
+\question{Q8. If $y = 3x + 2$, what is the predicted value when $x = 4$?}
+\begin{enumerate}[label=\alph*)]
+    \item 10
+    \item 12
+    \item 14
+    \item 16
+\end{enumerate}
+
+\question{Q9. If the slope of a regression line is negative, what does that tell us?}
+\begin{enumerate}[label=\alph*)]
+    \item There is no relationship between x and y
+    \item As x increases, y also increases
+    \item As x increases, y decreases
+    \item The model has failed
+\end{enumerate}
+
+\question{Q10. If $y = -2x + 10$, what is y when $x = 3$?}
+\begin{enumerate}[label=\alph*)]
+    \item 4
+    \item 16
+    \item $-4$
+    \item 6
+\end{enumerate}
+
+\question{Q11. What does the y-intercept (b) represent on a graph?}
+\begin{enumerate}[label=\alph*)]
+    \item The steepness of the line
+    \item Where the line crosses the x-axis
+    \item Where the line crosses the y-axis (when $x = 0$)
+    \item The average of all y values
+\end{enumerate}
+
+\question{Q12. The normal equation for linear regression is $\mathbf{w} = (X^TX)^{-1}X^Ty$. If $X$ is a $100 \times 3$ matrix, what is the shape of $\mathbf{w}$?}
+\begin{enumerate}[label=\alph*)]
+    \item $100 \times 1$
+    \item $3 \times 1$
+    \item $3 \times 100$
+    \item $1 \times 3$
+\end{enumerate}
+
+\question{Q13. Why does the closed-form solution (normal equation) become impractical for very large datasets?}
+\begin{enumerate}[label=\alph*)]
+    \item It requires more training epochs
+    \item Inverting $X^TX$ has $O(n^3)$ complexity in the number of features, which is too slow for high-dimensional data
+    \item It always underfits
+    \item It cannot handle negative values
+\end{enumerate}
+
+%% ============================================================
+\section{Cost Function (8 Questions)}
+%% ============================================================
+
+\question{Q14. Why do we SQUARE the errors in MSE instead of just summing them?}
+\begin{enumerate}[label=\alph*)]
+    \item To make computation faster
+    \item Because squared numbers are always positive
+    \item So positive and negative errors do not cancel out, and large errors are penalized more
+    \item It is just a convention with no mathematical reason
+\end{enumerate}
+
+\question{Q15. If you drag the regression line far away from the data points, what happens to the MSE?}
+\begin{enumerate}[label=\alph*)]
+    \item It stays the same
+    \item It decreases
+    \item It increases dramatically
+    \item It becomes negative
+\end{enumerate}
+
+\question{Q16. An MSE of 0 means:}
+\begin{enumerate}[label=\alph*)]
+    \item The model is terrible
+    \item The model perfectly predicts every data point
+    \item The model has not been trained yet
+    \item There is a bug in the code
+\end{enumerate}
+
+\question{Q17. Two models have MSE of 25 and 100 respectively. Which is better and by how much?}
+\begin{enumerate}[label=\alph*)]
+    \item The second model is better because 100 > 25
+    \item The first model is 4x better: lower MSE means less error
+    \item They are equally good
+    \item Cannot be determined from MSE alone
+\end{enumerate}
+
+\question{Q18. What is the ``residual'' in regression?}
+\begin{enumerate}[label=\alph*)]
+    \item The slope of the line
+    \item The difference between the actual value and the predicted value
+    \item The learning rate
+    \item The total number of data points
+\end{enumerate}
+
+\question{Q19. MSE uses squared errors. MAE uses absolute errors. When would you prefer MAE over MSE?}
+\begin{enumerate}[label=\alph*)]
+    \item When you want to penalize large errors more
+    \item When your data has many outliers and you want the model to be robust to them
+    \item When you need a differentiable loss function
+    \item Always: MAE is strictly better
+\end{enumerate}
+
+\question{Q20. Given points $(1,2)$, $(2,4)$, $(3,5)$ and the line $y = 1.5x + 0.5$, what is the MSE?}
+\begin{enumerate}[label=\alph*)]
+    \item 0
+    \item 0.0833
+    \item 0.25
+    \item 0.5
+\end{enumerate}
+
+\question{Q21. You compute the gradient of MSE and find $\frac{\partial L}{\partial w} = 0$ and $\frac{\partial L}{\partial b} = 0$. What does this tell you?}
+\begin{enumerate}[label=\alph*)]
+    \item The model has not started training yet
+    \item The current $w$ and $b$ are at a critical point (minimum) of the loss function
+    \item The learning rate is zero
+    \item The data has no pattern
+\end{enumerate}
+
+%% ============================================================
+\section{Gradient Descent (8 Questions)}
+%% ============================================================
+
+\question{Q22. What happens if the learning rate is TOO HIGH?}
+\begin{enumerate}[label=\alph*)]
+    \item The model converges faster
+    \item The model overshoots the minimum and may never converge
+    \item The model underfits
+    \item Nothing changes
+\end{enumerate}
+
+\question{Q23. You are training a model and the loss keeps bouncing up and down without decreasing. What is the most likely cause?}
+\begin{enumerate}[label=\alph*)]
+    \item The dataset is too small
+    \item The learning rate is too high
+    \item The model needs more features
+    \item The bias term is wrong
+\end{enumerate}
+
+\question{Q24. In Gradient Descent, the gradient tells us:}
+\begin{enumerate}[label=\alph*)]
+    \item The exact location of the minimum
+    \item The direction of steepest INCREASE of the loss
+    \item The learning rate to use
+    \item How many epochs are needed
+\end{enumerate}
+
+\question{Q25. Your model is training very slowly, taking thousands of epochs. The loss decreases but extremely gradually. What should you do?}
+\begin{enumerate}[label=\alph*)]
+    \item Decrease the learning rate
+    \item Increase the learning rate
+    \item Add more data points
+    \item Remove the bias term
+\end{enumerate}
+
+\question{Q26. On the cost function surface, what does the lowest point represent?}
+\begin{enumerate}[label=\alph*)]
+    \item The worst possible model
+    \item The starting point of training
+    \item The optimal weights that minimize error
+    \item The learning rate value
+\end{enumerate}
+
+\question{Q27. What is the partial derivative of MSE $= \frac{1}{n}\sum(wx_i + b - y_i)^2$ with respect to $w$?}
+\begin{enumerate}[label=\alph*)]
+    \item $\frac{2}{n}\sum(wx_i + b - y_i)$
+    \item $\frac{2}{n}\sum(wx_i + b - y_i) \cdot x_i$
+    \item $\frac{1}{n}\sum x_i$
+    \item $\frac{2}{n}\sum y_i$
+\end{enumerate}
+
+\question{Q28. You plot the loss curve and notice it decreases, then increases, then decreases again in a zigzag pattern. What is the best fix?}
+\begin{enumerate}[label=\alph*)]
+    \item Use a larger learning rate
+    \item Use learning rate decay: start high and gradually reduce it
+    \item Remove all features
+    \item Use MSE instead of MAE
+\end{enumerate}
+
+\question{Q29. For a single data point $(x=2, y=6)$ with current $w=1$ and $b=0$, what is $\partial\text{MSE}/\partial w$?}
+\begin{enumerate}[label=\alph*)]
+    \item $-16$
+    \item $-8$
+    \item $8$
+    \item $16$
+\end{enumerate}
+
+%% ============================================================
+\section{Training Process (6 Questions)}
+%% ============================================================
+
+\question{Q30. What is one ``epoch'' in the training process?}
+\begin{enumerate}[label=\alph*)]
+    \item One update to the weights
+    \item One complete pass through the entire dataset
+    \item One prediction
+    \item One gradient calculation
+\end{enumerate}
+
+\question{Q31. After 10 epochs the loss is 500. After 100 epochs it is 50. After 200 epochs it is 49.8. What should you do?}
+\begin{enumerate}[label=\alph*)]
+    \item Keep training for 1000 more epochs
+    \item Stop training: the model has converged
+    \item Increase the learning rate dramatically
+    \item Start over with random weights
+\end{enumerate}
+
+\question{Q32. What happens to the weights during each training step?}
+\begin{enumerate}[label=\alph*)]
+    \item They are randomly reassigned
+    \item They are updated in the direction that reduces the loss
+    \item They stay the same until the final epoch
+    \item They are always increased
+\end{enumerate}
+
+\question{Q33. If weight $= 2.0$, gradient $= 0.5$, learning rate $= 0.1$, what is the new weight?}
+\begin{enumerate}[label=\alph*)]
+    \item 2.05
+    \item 1.95
+    \item 2.5
+    \item 1.5
+\end{enumerate}
+
+\question{Q34. What is the difference between batch, mini-batch, and stochastic gradient descent?}
+\begin{enumerate}[label=\alph*)]
+    \item They use different loss functions
+    \item Batch uses all data per update, mini-batch uses a subset, SGD uses a single sample
+    \item SGD is always faster and more accurate
+    \item There is no practical difference
+\end{enumerate}
+
+\question{Q35. A model trained for 50 epochs has training MSE=10 and test MSE=100. What is happening?}
+\begin{enumerate}[label=\alph*)]
+    \item The model is underfitting
+    \item The model is overfitting: it memorized training data but does not generalize
+    \item The model is perfectly trained
+    \item The test set is too large
+\end{enumerate}
+
+%% ============================================================
+\section{Failure Cases (7 Questions)}
+%% ============================================================
+
+\question{Q36. A dataset contains a clear quadratic (curved) relationship. You apply Linear Regression. What happens?}
+\begin{enumerate}[label=\alph*)]
+    \item It fits perfectly
+    \item It underfits: the straight line cannot capture the curve
+    \item It overfits
+    \item The MSE becomes zero
+\end{enumerate}
+
+\question{Q37. A dataset has one extreme outlier. What effect does it have on the regression line?}
+\begin{enumerate}[label=\alph*)]
+    \item No effect at all
+    \item It pulls the line toward the outlier, distorting predictions for other points
+    \item It improves the model accuracy
+    \item It only affects the intercept
+\end{enumerate}
+
+\question{Q38. Adding heavy random noise to a dataset will likely cause:}
+\begin{enumerate}[label=\alph*)]
+    \item The MSE to decrease
+    \item Perfect predictions
+    \item Higher MSE and less reliable predictions
+    \item The model to overfit
+\end{enumerate}
+
+\question{Q39. What is ``multicollinearity'' and why is it a problem?}
+\begin{enumerate}[label=\alph*)]
+    \item When features are unrelated: makes the model too simple
+    \item When two or more features are highly correlated: makes weight estimates unstable
+    \item When there is only one feature: limits accuracy
+    \item When the target variable has multiple values
+\end{enumerate}
+
+\question{Q40. If your data forms a U-shape (parabola), what will the regression line look like?}
+\begin{enumerate}[label=\alph*)]
+    \item A perfect curve matching the data
+    \item A horizontal line cutting through the middle, missing both ends
+    \item A vertical line
+    \item Two separate lines
+\end{enumerate}
+
+\question{Q41. Your linear regression has $R^2 = 0.15$. What does this mean?}
+\begin{enumerate}[label=\alph*)]
+    \item The model explains 85\% of variance: it is great
+    \item The model explains only 15\% of variance: the relationship is likely nonlinear or key features are missing
+    \item $R^2$ of 0.15 is always acceptable
+    \item The model has converged optimally
+\end{enumerate}
+
+\question{Q42. What is heteroscedasticity?}
+\begin{enumerate}[label=\alph*)]
+    \item When the mean of errors is non-zero
+    \item When the variance of residuals changes across different values of x, violating the constant-variance assumption
+    \item When errors are correlated with each other
+    \item When the data has too few points
+\end{enumerate}
+
+%% ============================================================
+\section{Comparison (7 Questions)}
+%% ============================================================
+
+\question{Q43. What is the key advantage of Linear Regression over Neural Networks?}
+\begin{enumerate}[label=\alph*)]
+    \item It is more accurate
+    \item It can handle nonlinear data
+    \item It is simpler, faster, and more interpretable
+    \item It requires more data
+\end{enumerate}
+
+\question{Q44. Which method should you try FIRST for a dataset with a clear linear trend?}
+\begin{enumerate}[label=\alph*)]
+    \item Deep Neural Network
+    \item Random Forest
+    \item Linear Regression
+    \item Convolutional Neural Network
+\end{enumerate}
+
+\question{Q45. You have 50 data points with a clear linear trend. A colleague suggests a neural network with 10 layers. What do you recommend?}
+\begin{enumerate}[label=\alph*)]
+    \item Agree: deeper is always better
+    \item Use Linear Regression: it is sufficient and will not overfit
+    \item Use at least 20 layers
+    \item Do not use any model
+\end{enumerate}
+
+\question{Q46. What does ``interpretability'' mean in the context of models?}
+\begin{enumerate}[label=\alph*)]
+    \item How fast the model trains
+    \item How easily humans can understand WHY the model makes its predictions
+    \item How many parameters the model has
+    \item The programming language used
+\end{enumerate}
+
+\question{Q47. Your image recognition task needs to classify cats vs dogs. Should you use Linear Regression?}
+\begin{enumerate}[label=\alph*)]
+    \item Yes: it works for everything
+    \item No: this is a classification task with complex, nonlinear patterns requiring a different approach
+    \item Yes, but only with a high learning rate
+    \item Only if you have less than 100 images
+\end{enumerate}
+
+\question{Q48. What is regularization (L1/L2)?}
+\begin{enumerate}[label=\alph*)]
+    \item It increases the learning rate for faster training
+    \item It adds a penalty term to the loss to prevent weights from becoming too large, reducing overfitting
+    \item It removes outliers from the dataset
+    \item It converts regression into classification
+\end{enumerate}
+
+\question{Q49. You apply Ridge Regression (L2) with $\lambda=1000$. What happens to the weights?}
+\begin{enumerate}[label=\alph*)]
+    \item They become very large
+    \item They are pushed very close to zero, severely underfitting the data
+    \item They are unaffected
+    \item They become negative
+\end{enumerate}
+
+%% ============================================================
+\section{Multivariate Regression (13 Questions)}
+%% ============================================================
+
+\question{Q50. What does multivariable linear regression extend compared to simple linear regression?}
+\begin{enumerate}[label=\alph*)]
+    \item The number of output variables
+    \item The number of input features
+    \item The number of training epochs
+    \item The number of loss functions
+\end{enumerate}
+
+\question{Q51. In the equation $\hat{y} = w_1x_1 + w_2x_2 + w_3x_3 + b$, how many features does the model use?}
+\begin{enumerate}[label=\alph*)]
+    \item 1
+    \item 2
+    \item 3
+    \item 4
+\end{enumerate}
+
+\question{Q52. You are predicting house prices using size, bedrooms, and age. Which is the correct model form?}
+\begin{enumerate}[label=\alph*)]
+    \item $\hat{y} = w \cdot \text{size} + b$
+    \item $\hat{y} = w_1 \cdot \text{size} + w_2 \cdot \text{bedrooms} + w_3 \cdot \text{age} + b$
+    \item $\hat{y} = w \cdot (\text{size} + \text{bedrooms} + \text{age}) + b$
+    \item $\hat{y} = w_1 \cdot \text{size} \times w_2 \cdot \text{bedrooms} \times w_3 \cdot \text{age} + b$
+\end{enumerate}
+
+\question{Q53. In the matrix formulation $\hat{Y} = XW + b$, what are the dimensions of $X$ if there are 100 samples and 5 features?}
+\begin{enumerate}[label=\alph*)]
+    \item $5 \times 100$
+    \item $100 \times 5$
+    \item $100 \times 100$
+    \item $5 \times 5$
+\end{enumerate}
+
+\question{Q54. What is the Normal Equation for finding optimal weights?}
+\begin{enumerate}[label=\alph*)]
+    \item $W^* = X^Ty$
+    \item $W^* = (X^TX)^{-1}X^Ty$
+    \item $W^* = X^{-1}y$
+    \item $W^* = (XX^T)^{-1}Xy$
+\end{enumerate}
+
+\question{Q55. Feature ``size'' ranges from 50--500 while ``bedrooms'' ranges from 1--6. What problem does this cause?}
+\begin{enumerate}[label=\alph*)]
+    \item The model cannot converge
+    \item Gradient descent zig-zags and converges slowly
+    \item The bias becomes negative
+    \item The model always overfits
+\end{enumerate}
+
+\question{Q56. What does Min-Max Normalization scale features to?}
+\begin{enumerate}[label=\alph*)]
+    \item $[-1, 1]$
+    \item $[0, 1]$
+    \item Mean$=0$, Std$=1$
+    \item $[0, 100]$
+\end{enumerate}
+
+\question{Q57. What does Z-score standardization produce?}
+\begin{enumerate}[label=\alph*)]
+    \item Values between 0 and 1
+    \item Values between $-1$ and 1
+    \item Mean $= 0$ and standard deviation $= 1$
+    \item All positive values
+\end{enumerate}
+
+\question{Q58. What is feature engineering?}
+\begin{enumerate}[label=\alph*)]
+    \item Removing all features from the dataset
+    \item Creating new features from existing ones to improve predictions
+    \item Training a model without any features
+    \item Using only one feature at a time
+\end{enumerate}
+
+\question{Q59. You have 50,000 features. Should you use the Normal Equation or Gradient Descent?}
+\begin{enumerate}[label=\alph*)]
+    \item Normal Equation: it is always exact
+    \item Gradient Descent: Normal Equation is $O(n^3)$ and too slow for many features
+    \item Either works equally well
+    \item Neither: use a neural network instead
+\end{enumerate}
+
+\question{Q60. What is multicollinearity and why is it problematic?}
+\begin{enumerate}[label=\alph*)]
+    \item When features are uncorrelated with the target
+    \item When features are highly correlated with each other, causing unstable weights
+    \item When the model has too many layers
+    \item When the learning rate is too high
+\end{enumerate}
+
+\question{Q61. Given $\hat{y} = 3x_1 + 2x_2 - x_3 + 5$, what is the prediction for $x_1=2, x_2=4, x_3=1$?}
+\begin{enumerate}[label=\alph*)]
+    \item 16
+    \item 18
+    \item 14
+    \item 20
+\end{enumerate}
+
+\question{Q62. Your features have very different scales: $x_1 \in [0,1]$ and $x_2 \in [0, 1000000]$. You run gradient descent without normalization. What happens?}
+\begin{enumerate}[label=\alph*)]
+    \item Nothing: gradient descent handles all scales equally
+    \item The loss surface becomes elongated, causing slow zigzag convergence
+    \item The model only learns $x_2$ and ignores $x_1$
+    \item The MSE becomes negative
+\end{enumerate}
+
+%% ============================================================
+\section{Data Intuition (5 Questions)}
+%% ============================================================
+
+\question{Q63. What does a Pearson correlation coefficient of $r = 0$ mean?}
+\begin{enumerate}[label=\alph*)]
+    \item Perfect positive relationship
+    \item No linear relationship
+    \item Perfect negative relationship
+    \item The data has errors
+\end{enumerate}
+
+\question{Q64. If data points form a tight cluster along a downward-sloping line, what is the likely correlation?}
+\begin{enumerate}[label=\alph*)]
+    \item $r \approx +0.9$
+    \item $r \approx -0.9$
+    \item $r \approx 0$
+    \item $r \approx +0.5$
+\end{enumerate}
+
+\question{Q65. Ice cream sales and drowning deaths have $r \approx 0.85$. Does this mean ice cream causes drowning?}
+\begin{enumerate}[label=\alph*)]
+    \item Yes, the high correlation proves causation
+    \item No: both are caused by a confounding variable (hot weather)
+    \item Only if $r > 0.95$
+    \item This correlation is impossible
+\end{enumerate}
+
+\question{Q66. Which scenario would produce a Pearson $r \approx 0$ despite a clear pattern in the data?}
+\begin{enumerate}[label=\alph*)]
+    \item A perfectly linear positive trend
+    \item A U-shaped (quadratic) relationship
+    \item A moderate negative trend
+    \item A strong positive trend with noise
+\end{enumerate}
+
+\question{Q67. If $r = -1.0$, what does the scatter plot look like?}
+\begin{enumerate}[label=\alph*)]
+    \item Random scatter
+    \item All points exactly on an upward line
+    \item All points exactly on a downward line
+    \item A circular pattern
+\end{enumerate}
+
+%% ============================================================
+\section{Bias-Variance Tradeoff (5 Questions)}
+%% ============================================================
+
+\question{Q68. What is ``underfitting'' in machine learning?}
+\begin{enumerate}[label=\alph*)]
+    \item The model memorizes training data
+    \item The model is too simple to capture the underlying pattern
+    \item The model works perfectly on test data
+    \item The model has too many parameters
+\end{enumerate}
+
+\question{Q69. What happens when a model overfits?}
+\begin{enumerate}[label=\alph*)]
+    \item It performs well on both train and test data
+    \item It has high training error
+    \item It memorizes training data but fails on new data
+    \item It is too simple
+\end{enumerate}
+
+\question{Q70. Your model has train MSE $= 0.5$ and test MSE $= 25$. What is the diagnosis?}
+\begin{enumerate}[label=\alph*)]
+    \item Underfitting
+    \item Good fit
+    \item Overfitting
+    \item Insufficient data
+\end{enumerate}
+
+\question{Q71. In the bias-variance tradeoff, increasing model complexity typically:}
+\begin{enumerate}[label=\alph*)]
+    \item Increases bias and decreases variance
+    \item Decreases bias and increases variance
+    \item Decreases both bias and variance
+    \item Increases both bias and variance
+\end{enumerate}
+
+\question{Q72. A degree-15 polynomial is fit to 20 data points. What will likely happen?}
+\begin{enumerate}[label=\alph*)]
+    \item Perfect generalization
+    \item High bias, low variance
+    \item Low bias, high variance (overfitting)
+    \item The model cannot be trained
+\end{enumerate}
+
+%% ============================================================
+\section{Evaluation Metrics (5 Questions)}
+%% ============================================================
+
+\question{Q73. What does $R^2 = 1.0$ mean?}
+\begin{enumerate}[label=\alph*)]
+    \item The model has 100\% error
+    \item The model explains all variance in the target
+    \item The model is overfitting
+    \item The features are uncorrelated
+\end{enumerate}
+
+\question{Q74. Which metric is MOST sensitive to outliers?}
+\begin{enumerate}[label=\alph*)]
+    \item MAE (Mean Absolute Error)
+    \item MSE (Mean Squared Error)
+    \item Median Error
+    \item $R^2$
+\end{enumerate}
+
+\question{Q75. Predictions: $[10, 12, 15]$. Actual: $[11, 10, 14]$. What is the MAE?}
+\begin{enumerate}[label=\alph*)]
+    \item 1.0
+    \item 1.33
+    \item 2.0
+    \item 1.67
+\end{enumerate}
+
+\question{Q76. Your model has RMSE $= 5.0$ predicting house prices in thousands. What does this mean practically?}
+\begin{enumerate}[label=\alph*)]
+    \item Predictions are off by \$5 on average
+    \item Predictions are off by about \$5,000 on average
+    \item The model explains 5\% of variance
+    \item The model has 5 features
+\end{enumerate}
+
+\question{Q77. Can $R^2$ be negative? If so, when?}
+\begin{enumerate}[label=\alph*)]
+    \item No, $R^2$ is always between 0 and 1
+    \item Yes: when the model is worse than predicting the mean
+    \item Yes: only for nonlinear models
+    \item Yes: when there are too many features
+\end{enumerate}
+
+%% ============================================================
+\section{Linear Regression to Neural Networks (5 Questions)}
+%% ============================================================
+
+\question{Q78. A single neuron with no activation function is equivalent to:}
+\begin{enumerate}[label=\alph*)]
+    \item A decision tree
+    \item Linear regression
+    \item A random forest
+    \item Logistic regression
+\end{enumerate}
+
+\question{Q79. Why do neural networks need activation functions?}
+\begin{enumerate}[label=\alph*)]
+    \item To make training faster
+    \item To introduce non-linearity so the network can model complex patterns
+    \item To reduce the number of parameters
+    \item To prevent overfitting
+\end{enumerate}
+
+\question{Q80. What does the ReLU activation function do?}
+\begin{enumerate}[label=\alph*)]
+    \item Outputs the input if positive, 0 otherwise
+    \item Squishes values between 0 and 1
+    \item Squares the input
+    \item Normalizes the output
+\end{enumerate}
+
+\question{Q81. If you stack 3 linear layers without activations ($y = W_3(W_2(W_1x + b_1) + b_2) + b_3$), what do you get?}
+\begin{enumerate}[label=\alph*)]
+    \item A deep neural network
+    \item A single linear transformation (still linear regression)
+    \item A cubic function
+    \item A model that cannot be trained
+\end{enumerate}
+
+\question{Q82. A neuron has weights $[2, -1]$, bias $= 3$, and ReLU activation. Input $= [1, 5]$. What is the output?}
+\begin{enumerate}[label=\alph*)]
+    \item 0
+    \item 6
+    \item $-2$
+    \item 0 (because ReLU clips negative values)
+\end{enumerate}
+
+%% ============================================================
+%%                      ANSWER KEY
+%% ============================================================
+\newpage
+\section{Answer Key}
+
+All correct answers with brief explanations.
+
+\vspace{0.5em}
+
+\renewcommand{\arraystretch}{1.25}
+
+\begin{longtable}{|c|c|p{9.5cm}|}
+\hline
+\textbf{Q\#} & \textbf{Ans} & \textbf{Explanation} \\
+\hline
+\endfirsthead
+\hline
+\textbf{Q\#} & \textbf{Ans} & \textbf{Explanation} \\
+\hline
+\endhead
+\hline
+\endfoot
+1 & b & Linear Regression finds the best straight line ($y = wx + b$) that minimizes the distance between predictions and actual values. \\
+\hline
+2 & b & It predicts continuous numeric values (e.g., price, temperature) rather than discrete categories. \\
+\hline
+3 & b & Predicting a continuous value (price) from a numeric feature (square footage) is a classic Linear Regression problem. \\
+\hline
+4 & c & A good fit shows points roughly following a linear trend, with the regression line passing through the center. \\
+\hline
+5 & b & The third feature is an exact linear combination of the first, making $(X^TX)$ singular. \\
+\hline
+6 & b & Linear regression is linear in its parameters, not its features. If $x_1^2$ is provided as a feature, the model fits it perfectly. \\
+\hline
+7 & c & The slope (m) determines how steep the line is. \\
+\hline
+8 & c & $y = 3(4) + 2 = 14$ \\
+\hline
+9 & c & A negative slope means as x increases, y decreases. \\
+\hline
+10 & a & $y = -2(3) + 10 = 4$ \\
+\hline
+11 & c & The y-intercept is the value of y when $x = 0$. \\
+\hline
+12 & b & $X^TX$ is $3\times3$, so $\mathbf{w} = (3\times3)(3\times1) = 3\times1$. \\
+\hline
+13 & b & Inverting $X^TX$ has $O(p^3)$ complexity where p is the number of features. \\
+\hline
+14 & c & Squaring prevents cancellation of positive/negative errors and penalizes larger errors more. \\
+\hline
+15 & c & Moving the line away increases squared errors dramatically. \\
+\hline
+16 & b & MSE $= 0$ means every prediction exactly matches the actual value. \\
+\hline
+17 & b & Lower MSE means less error. The first model has 4x less error. \\
+\hline
+18 & b & Residual $=$ actual $-$ predicted. \\
+\hline
+19 & b & MAE is more robust to outliers since it does not square errors. \\
+\hline
+20 & b & Predictions: 2, 3.5, 5. Errors$^2$: 0, 0.25, 0. MSE $= 0.25/3 = 0.0833$. \\
+\hline
+21 & b & Zero gradients mean you are at the global minimum (MSE is convex for linear regression). \\
+\hline
+22 & b & Too-high learning rate causes overshooting and divergence. \\
+\hline
+23 & b & Oscillating loss typically indicates a learning rate that is too large. \\
+\hline
+24 & b & The gradient points in the direction of steepest increase; we move opposite to decrease loss. \\
+\hline
+25 & b & Very slow convergence means the learning rate is too small. \\
+\hline
+26 & c & The lowest point is the optimal weights that minimize error. \\
+\hline
+27 & b & By chain rule: $\frac{2}{n}\sum(wx_i + b - y_i) \cdot x_i$. \\
+\hline
+28 & b & Learning rate decay starts high for fast progress, then reduces for stable convergence. \\
+\hline
+29 & a & $\hat{y}=2$, error $= -4$. $\partial\text{MSE}/\partial w = 2(-4)(2) = -16$. \\
+\hline
+30 & b & An epoch is one complete pass through all training data. \\
+\hline
+31 & b & Loss barely changed ($50 \to 49.8$): the model has converged. \\
+\hline
+32 & b & Weights are updated in the direction that reduces the loss. \\
+\hline
+33 & b & $2.0 - 0.1 \times 0.5 = 1.95$ \\
+\hline
+34 & b & Batch uses all data, mini-batch a subset, SGD one sample per update. \\
+\hline
+35 & b & Large gap between train and test error is overfitting. \\
+\hline
+36 & b & A straight line cannot capture a curve: underfitting. \\
+\hline
+37 & b & MSE penalizes large errors, pulling the line toward the outlier. \\
+\hline
+38 & c & Noise obscures the true pattern, raising MSE. \\
+\hline
+39 & b & Highly correlated features make weight estimates unstable. \\
+\hline
+40 & b & A straight line cuts through the middle of a U-shape, missing both ends. \\
+\hline
+41 & b & Only 15\% of variance is explained; likely nonlinear or missing features. \\
+\hline
+42 & b & Error variance changes with x, violating the constant-variance assumption. \\
+\hline
+43 & c & Linear Regression is simpler, faster, and more interpretable. \\
+\hline
+44 & c & Always start simple with Linear Regression for linear data. \\
+\hline
+45 & b & For 50 points with a linear trend, LR is sufficient; a deep network would overfit. \\
+\hline
+46 & b & How easily humans can understand why the model makes its predictions. \\
+\hline
+47 & b & Image classification needs a CNN, not regression. \\
+\hline
+48 & b & Regularization penalizes large weights to reduce overfitting. \\
+\hline
+49 & b & Very high $\lambda$ pushes all weights toward zero, causing underfitting. \\
+\hline
+50 & b & Extends from one input feature to multiple input features. \\
+\hline
+51 & c & Three features: $x_1, x_2, x_3$. b is the bias. \\
+\hline
+52 & b & Each feature gets its own independent weight. \\
+\hline
+53 & b & $X$ is (samples $\times$ features) $= 100 \times 5$. \\
+\hline
+54 & b & $W^* = (X^TX)^{-1}X^Ty$ \\
+\hline
+55 & b & Different scales cause elongated contours and slow zig-zag convergence. \\
+\hline
+56 & b & Maps values to $[0, 1]$ using $(x - \min)/(\max - \min)$. \\
+\hline
+57 & c & Centers at mean $= 0$ with standard deviation $= 1$. \\
+\hline
+58 & b & Creating new features from existing ones (e.g., $x^2$, price/size). \\
+\hline
+59 & b & Normal Equation is $O(n^3)$; gradient descent scales better. \\
+\hline
+60 & b & Correlated features cause unstable weight estimates. \\
+\hline
+61 & b & $3(2) + 2(4) - 1(1) + 5 = 18$ \\
+\hline
+62 & b & Unscaled features create an elongated loss surface. \\
+\hline
+63 & b & No linear relationship between the variables. \\
+\hline
+64 & b & Tight downward cluster $= $ strong negative correlation. \\
+\hline
+65 & b & Correlation $\neq$ causation; hot weather is the confounding variable. \\
+\hline
+66 & b & U-shaped patterns cancel out, giving $r \approx 0$ despite a clear pattern. \\
+\hline
+67 & c & $r = -1.0$: all points on a downward line. \\
+\hline
+68 & b & The model is too simple to capture the pattern. \\
+\hline
+69 & c & Memorizes training data but fails on new data. \\
+\hline
+70 & c & Huge train/test gap $=$ overfitting. \\
+\hline
+71 & b & More complexity $=$ less bias, more variance. \\
+\hline
+72 & c & 16 parameters for 20 points $=$ extreme overfitting. \\
+\hline
+73 & b & The model explains all variance in the target. \\
+\hline
+74 & b & MSE squares errors, so outliers dominate. \\
+\hline
+75 & b & $(1+2+1)/3 \approx 1.33$ \\
+\hline
+76 & b & RMSE is in target units: \$5,000 off on average. \\
+\hline
+77 & b & $R^2 < 0$ when the model is worse than predicting the mean. \\
+\hline
+78 & b & A neuron with no activation $= $ linear regression. \\
+\hline
+79 & b & Activations introduce non-linearity for complex patterns. \\
+\hline
+80 & a & ReLU$(x) = \max(0, x)$. \\
+\hline
+81 & b & Stacked linear layers $=$ one linear transformation. \\
+\hline
+82 & a & $z = 2(1) + (-1)(5) + 3 = 0$. ReLU$(0) = 0$. \\
+\hline
+\end{longtable}
+
+\end{document}

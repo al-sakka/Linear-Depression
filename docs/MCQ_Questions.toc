@@ -1,0 +1,13 @@
+\contentsline {section}{\numberline {1}Introduction (6 Questions)}{2}{section.1}%
+\contentsline {section}{\numberline {2}The Mathematics (7 Questions)}{3}{section.2}%
+\contentsline {section}{\numberline {3}Cost Function (8 Questions)}{5}{section.3}%
+\contentsline {section}{\numberline {4}Gradient Descent (8 Questions)}{6}{section.4}%
+\contentsline {section}{\numberline {5}Training Process (6 Questions)}{8}{section.5}%
+\contentsline {section}{\numberline {6}Failure Cases (7 Questions)}{10}{section.6}%
+\contentsline {section}{\numberline {7}Comparison (7 Questions)}{11}{section.7}%
+\contentsline {section}{\numberline {8}Multivariate Regression (13 Questions)}{13}{section.8}%
+\contentsline {section}{\numberline {9}Data Intuition (5 Questions)}{16}{section.9}%
+\contentsline {section}{\numberline {10}Bias-Variance Tradeoff (5 Questions)}{17}{section.10}%
+\contentsline {section}{\numberline {11}Evaluation Metrics (5 Questions)}{18}{section.11}%
+\contentsline {section}{\numberline {12}Linear Regression to Neural Networks (5 Questions)}{19}{section.12}%
+\contentsline {section}{\numberline {13}Answer Key}{21}{section.13}%

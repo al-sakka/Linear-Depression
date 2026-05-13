@@ -1,0 +1,18 @@
+\contentsline {section}{\numberline {1}Introduction}{4}{section.1}%
+\contentsline {section}{\numberline {2}Aim of the Project}{4}{section.2}%
+\contentsline {section}{\numberline {3}Concept Overview: Linear Regression}{5}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Connection to Neural Networks}{5}{subsection.3.1}%
+\contentsline {section}{\numberline {4}Block Diagram of Steps}{6}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Step-by-Step Breakdown}{6}{subsection.4.1}%
+\contentsline {section}{\numberline {5}System Architecture}{7}{section.5}%
+\contentsline {section}{\numberline {6}AI Tools Used}{7}{section.6}%
+\contentsline {section}{\numberline {7}Key Features}{8}{section.7}%
+\contentsline {subsection}{\numberline {7.1}Interactive Regression Playground}{8}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.2}15 Interactive Visualizations}{9}{subsection.7.2}%
+\contentsline {subsection}{\numberline {7.3}AI Tutor (Gemini-Powered Chatbot)}{9}{subsection.7.3}%
+\contentsline {subsection}{\numberline {7.4}Quiz System}{9}{subsection.7.4}%
+\contentsline {subsection}{\numberline {7.5}Gamification}{10}{subsection.7.5}%
+\contentsline {subsection}{\numberline {7.6}Google Authentication}{10}{subsection.7.6}%
+\contentsline {section}{\numberline {8}Technology Stack}{11}{section.8}%
+\contentsline {section}{\numberline {9}Challenges}{11}{section.9}%
+\contentsline {section}{\numberline {10}Conclusions}{12}{section.10}%
