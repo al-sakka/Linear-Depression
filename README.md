@@ -438,7 +438,7 @@ Each example includes:
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/Linear-Depression.git
+git clone https://github.com/al-sakka/Linear-Depression.git
 cd Linear-Depression/linearmind
 ```
 
